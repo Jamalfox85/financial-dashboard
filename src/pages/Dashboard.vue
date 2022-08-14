@@ -10,9 +10,6 @@
 			<paycheck-timeline
 				class="col-span-6 row-span-3 bg-green-200 text-lg text-center rounded-lg"
 			/>
-			<weekly-bills
-				class="col-span-3 row-span-6 bg-green-200 text-lg text-center rounded-lg"
-			/>
 			<credit-score
 				class="col-span-3 row-span-3 bg-green-200 text-lg text-center rounded-lg"
 			/>
@@ -22,8 +19,8 @@
 			<accounts
 				class="col-span-6 row-span-6 bg-green-200 text-lg text-center rounded-lg"
 			/>
-			<monthly-bills
-				class="col-span-3 row-span-6 bg-green-200 text-lg text-center rounded-lg"
+			<bills
+				class="col-start-10 col-span-3 row-span-full bg-green-200 text-lg text-center-rounded-lg"
 			/>
 		</div>
 	</div>
@@ -35,8 +32,7 @@ import PaycheckTimeline from "../components/dashboard/PaycheckTimeline.vue";
 import CreditScore from "../components/dashboard/CreditScore.vue";
 import WeeklyFocus from "../components/dashboard/WeeklyFocus.vue";
 import Accounts from "../components/dashboard/Accounts.vue";
-import WeeklyBills from "../components/dashboard/Bills-Weekly.vue";
-import MonthlyBills from "../components/dashboard/Bills-Monthly.vue";
+import Bills from "../components/dashboard/Bills.vue";
 
 export default {
 	components: {
@@ -45,8 +41,7 @@ export default {
 		CreditScore,
 		WeeklyFocus,
 		Accounts,
-		WeeklyBills,
-		MonthlyBills,
+		Bills,
 	},
 };
 </script>
