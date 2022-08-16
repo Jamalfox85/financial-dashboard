@@ -1,15 +1,18 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import NavBar from "./core/components/Header.vue";
+import SideBar from "./core/components/SideBar.vue";
+import "./index.css";
 
 export default {
-	components: { NavBar },
+	components: { SideBar },
 };
 </script>
 
 <template>
-	<NavBar />
-	<RouterView class="main" />
+	<div class="main">
+		<SideBar />
+		<RouterView class="main" />
+	</div>
 </template>
 
 <style scoped></style>
