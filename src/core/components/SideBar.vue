@@ -78,7 +78,7 @@ export default {
 	height: 90vh;
 	width: 20vw;
 	background-color: #363537;
-	color: #fff;
+	color: #edf2ef;
 	display: flex;
 	flex-direction: column;
 	margin: auto 0;

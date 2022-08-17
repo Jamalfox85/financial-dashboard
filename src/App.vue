@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-	<div class="main">
+	<div class="app">
 		<SideBar />
 		<RouterView class="main" />
 	</div>

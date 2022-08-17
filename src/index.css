@@ -9,11 +9,19 @@
 	box-sizing: border-box;
 }
 
-.main {
+.app {
 	height: 100vh;
 	width: 100vw;
 	font-size: 16px;
 	display: flex;
+	align-items: center;
 	padding: 1em;
 	font-family: "Josefin Sans", sans-serif;
+}
+
+.main {
+	display: flex;
+	margin: 0 auto;
+	justify-content: center;
+	align-items: center;
 }
