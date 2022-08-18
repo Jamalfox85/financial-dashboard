@@ -4,6 +4,12 @@
 			<div class="row">
 				<savings-goal class="cell" />
 			</div>
+			<div class="row">
+				<div class="cell" />
+				<div class="cell" />
+				<div class="cell" />
+				<bills class="cell" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -32,8 +38,7 @@ export default {
 .dashboard-wrapper {
 	height: 90vh;
 	width: 70vw;
-	overflow: hidden;
-	border: solid 4px green;
+	overflow: scroll;
 	.grid-wrapper {
 		height: 100%;
 		width: 100%;
@@ -41,7 +46,10 @@ export default {
 		flex-direction: column;
 		.row {
 			width: 100%;
+			display: flex;
+			justify-content: space-between;
 			.cell {
+				// border: solid 2px red;
 			}
 		}
 	}
