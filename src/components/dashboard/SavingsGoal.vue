@@ -4,6 +4,9 @@
 			<h1>Savings Goal</h1>
 			<img :src="expandDots" />
 		</div>
+		<div>
+			<h1 @click="getGoals">Get Goals</h1>
+		</div>
 		<div class="savings-goals">
 			<div
 				class="savings-card"
@@ -37,6 +40,8 @@
 <script>
 import expandDots from "../../assets/images/expand-details.png";
 import circlePlus from "../../assets/images/circle-plus.png";
+
+import MainDataService from "../../services/MainDataService";
 
 export default {
 	data() {
@@ -113,6 +118,13 @@ export default {
 			let target = this.goals[i - 1].current;
 			console.log(target + 20);
 			target = target + 20;
+		},
+		getGoals() {
+			console.log("PING");
+			MainDataService.getAll().then((res) => {
+				console.log(res);
+				console.log(res.data);
+			});
 		},
 	},
 };
