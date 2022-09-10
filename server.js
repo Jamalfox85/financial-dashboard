@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
 	res.json({ message: "Welcome to jamal's application." });
 });
 require("./routes/user.routes")(app);
+require("./routes/savings.routes")(app);
 const PORT = process.env.PORT || 8082;
 app.listen(PORT, () => {
 	console.log("Server is running on port ", PORT);
