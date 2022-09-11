@@ -43,10 +43,16 @@ exports.create = (req, res) => {
 exports.findONe = (req, res) => {};
 
 // Update a Tutorial by the id in the request
-exports.update = (req, res) => {};
+exports.update = (req, res) => {
+	let id = req.params.id;
+	Savings.update(req.body, { where: { id: id } });
+};
 
 // Delete a tutorial with the specified id in the request
-exports.delete = (req, res) => {};
+exports.delete = (req, res) => {
+	let deletedId = req.params.id;
+	Savings.destroy({ where: { id: deletedId } });
+};
 
 // Delete all tutorials from the database.
 exports.deleteAll = (req, res) => {};

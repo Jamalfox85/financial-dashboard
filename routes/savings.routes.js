@@ -5,6 +5,10 @@ module.exports = (app) => {
 	router.post("/", savings.create);
 	// Retrieve all savings goals
 	router.get("/", savings.getAll);
+	// Update a savings goal
+	router.put("/:id", savings.update);
+	// 	// Delete a savings goal with id
+	router.delete("/:id", savings.delete);
 	app.use("/api/savings", router);
 };
 

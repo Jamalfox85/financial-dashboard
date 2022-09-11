@@ -11,6 +11,7 @@
 			<savings-goal-block
 				class="savings-block"
 				v-for="goal in goals"
+				:goalId="goal.id"
 				:name="goal.savings_name"
 				:current="goal.current_amount"
 				:goal="goal.goal_amount"

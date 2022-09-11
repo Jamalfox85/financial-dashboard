@@ -10,12 +10,12 @@ class SavingsDataService {
 	create(data) {
 		return http.post("/savings", data);
 	}
-	// update(id, data) {
-	// 	return http.put(`/users/${id}`, data);
-	// }
-	// delete(id) {
-	// 	return http.delete(`/users/${id}`);
-	// }
+	update(id, data) {
+		return http.put(`/savings/${id}`, data);
+	}
+	delete(id) {
+		return http.delete(`/savings/${id}`);
+	}
 	// deleteAll() {
 	// 	return http.delete("/users");
 	// }
