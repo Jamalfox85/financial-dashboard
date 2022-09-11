@@ -29,8 +29,17 @@ VALUES ("Fox", "Jamal", "test123@yahoo", "123");
 
 --@block
 INSERT INTO Savings (savings_name, goal_amount, current_amount, UserId)
-VALUES ("Emergency", 5000, 0, 1)
+VALUES ("Vacation", 1500, 0, 1)
 
 --@block
-SELECT * FROM Savings WHERE id = 1
-UPDATE savings SET current_amount = 1000 WHERE id = 1
+SELECT * FROM Savings WHERE Userid = 1
+-- UPDATE savings SET current_amount = 1000 WHERE id = 1
+
+--@block
+ALTER TABLE Savings 
+ALTER COLUMN savings_name
+DROP DEFAULT
+
+--@block
+DELETE FROM `savings`
+WHERE savings_name LIKE '%test%'

@@ -7,9 +7,9 @@ class SavingsDataService {
 	// get(id) {
 	// 	return http.get(`/users/${id}`);
 	// }
-	// create(data) {
-	// 	return http.post("/users", data);
-	// }
+	create(data) {
+		return http.post("/savings", data);
+	}
 	// update(id, data) {
 	// 	return http.put(`/users/${id}`, data);
 	// }

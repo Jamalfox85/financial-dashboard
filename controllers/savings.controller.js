@@ -21,9 +21,20 @@ const Op = db.Sequelize.Op;
 // 		});
 // };
 
-// Retrieve all Tutorials from the database.
 exports.getAll = (req, res) => {
 	Savings.findAll().then((data) => {
+		res.send(data);
+	});
+};
+
+exports.create = (req, res) => {
+	let goal = {
+		savings_name: req.body.savings_name,
+		goal_amount: req.body.goal_amount,
+		current_amount: req.body.current_amount,
+		Userid: 1,
+	};
+	Savings.create(goal).then((data) => {
 		res.send(data);
 	});
 };
