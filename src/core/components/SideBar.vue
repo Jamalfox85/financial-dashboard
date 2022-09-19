@@ -2,7 +2,7 @@
 	<div class="sidebar-wrapper">
 		<div class="header">
 			<img :src="piggyBank" />
-			<h1>FinDash</h1>
+			<h1>Dashboard</h1>
 		</div>
 		<div class="navigation-links">
 			<div
@@ -11,14 +11,12 @@
 				v-for="link in navigationLinks"
 				@click="setCurrentLink(link)"
 			>
-				<h2>{{ link.name }}</h2>
+				<p>{{ link.name }}</p>
 				<div class="active-icon"></div>
 			</div>
 		</div>
 		<div class="sidebar-footer">
-			<div class="portrait">
-				<img :src="portrait" />
-			</div>
+			<img class="portrait" :src="portrait" />
 			<div class="text">
 				<h2 class="primary">Diana Rockwood</h2>
 				<h3 class="secondary">Financial Advisor</h3>
@@ -76,35 +74,40 @@ export default {
 <style lang="scss">
 .sidebar-wrapper {
 	height: 90vh;
-	width: 20vw;
+	width: 15vw;
 	background-color: #363537;
 	color: #edf2ef;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	margin: auto 0;
 	padding: 2em 4em;
 	border-radius: 16px;
+	position: relative;
 	.header {
 		display: flex;
+		align-items: center;
+		position: absolute;
 		img {
 			height: 45px;
-			margin-right: 1em;
+			margin-right: 4px;
 		}
 		h1 {
-			font-size: 39px;
+			font-size: 16px;
+			margin-left: 4px;
 		}
 	}
 	.navigation-links {
 		display: flex;
 		flex-direction: column;
-		justify-content: space-evenly;
-		height: 40%;
+		margin-top: 15vh;
 		.link {
 			display: flex;
 			align-items: center;
-			font-size: 20px;
+			font-size: 16px !important;
 			cursor: pointer;
 			transition: 0.2s ease-in-out;
+			margin-bottom: 0.25em;
 			&:hover {
 				color: #0cce6ab2;
 			}
@@ -126,21 +129,22 @@ export default {
 	}
 	.sidebar-footer {
 		display: flex;
-		margin-top: auto;
+		margin: 0 auto;
+		position: absolute;
+		bottom: 10px;
 		.portrait {
 			height: 80px;
 			width: 80px;
 			border-radius: 50%;
 			border: solid 2px #0cce6b;
-			overflow: hidden;
 		}
 		.text {
 			margin: 1em 0 0 1em;
 			.primary {
-				font-size: 20px;
+				font-size: 16px;
 			}
 			.secondary {
-				font-size: 16px;
+				font-size: 12px;
 				color: #a8a8a8;
 			}
 		}
