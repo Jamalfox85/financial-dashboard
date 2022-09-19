@@ -5,7 +5,7 @@
 			<savings-goal class="savings-goal" />
 			<div class="placeholder" />
 			<div class="placeholder3" />
-			<div class="placeholder4" />
+			<bills class="bills" />
 			<!-- <div class="row">
 				<div class="cell" />
 				<div class="cell" />
@@ -22,7 +22,7 @@ import PaycheckTimeline from "../components/dashboard/PaycheckTimeline.vue";
 import CreditScore from "../components/dashboard/CreditScore.vue";
 import WeeklyFocus from "../components/dashboard/WeeklyFocus.vue";
 import Accounts from "../components/dashboard/Accounts.vue";
-import Bills from "../components/dashboard/Bills.vue";
+import Bills from "../components/dashboard/Bills/Bills.vue";
 
 export default {
 	components: {
@@ -66,7 +66,7 @@ export default {
 			grid-row: 1/13;
 			background-color: #999;
 		}
-		.placeholder4 {
+		.bills {
 			grid-column: 10/13;
 			grid-row: 1/13;
 			background-color: #777;
