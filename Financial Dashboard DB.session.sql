@@ -33,8 +33,8 @@ CREATE TABLE Bills (
 )
 
 --@block
-ALTER TABLE `savings`
-RENAME COLUMN SavingsId TO id
+ALTER TABLE `bills`
+RENAME COLUMN billId TO id
 
 --@block
 INSERT INTO Users(LastName, FirstName, Email, Pass)
@@ -45,8 +45,8 @@ INSERT INTO Savings (savings_name, goal_amount, current_amount, UserId)
 VALUES ("Vacation", 1500, 0, 1)
 
 --@block
-INSERT INTO Bills (bill_name, bill_amount, bill_date, bill_long_date, bill_paid, UserId)
-Values("xFinity", 75, '21', '2022-09-21', FALSE, 1)
+INSERT INTO Bills (bill_name, bill_amount, bill_date, bill_paid, UserId)
+Values("Chase", 150, '30', 0, 1)
 
 --@block
 SELECT * FROM Savings WHERE Userid = 1
@@ -66,3 +66,6 @@ DROP COLUMN bill_long_date
 --@block
 DELETE FROM `savings`
 WHERE savings_name LIKE '%test%'
+
+--@block
+UPDATE bills SET bill_paid = 1 WHERE id = 1

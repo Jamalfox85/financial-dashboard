@@ -69,7 +69,6 @@ export default {
 		.bills {
 			grid-column: 10/13;
 			grid-row: 1/13;
-			background-color: #777;
 		}
 	}
 }

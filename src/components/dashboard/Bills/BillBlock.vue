@@ -3,24 +3,20 @@
 		<div
 			class="bill"
 			:class="{
-				late: billDate <= today && billPaid === false,
-				upcoming:
-					billDate < today + 7 && billDate > today && billPaid === false,
-				paid: billPaid === true,
+				late: billDate <= today && billPaid === 0,
+				upcoming: billDate < today + 7 && billDate > today && billPaid === 0,
+				paid: billPaid === 1,
+				future: billDate > today + 7 && billPaid === 0,
 			}"
 		>
-			<!-- :style="{ display: billDate <= today + 7 ? 'flex' : 'none' }" -->
 			<small class="bill-date">{{ billDate }}</small>
 			<div class="bill-block">
 				<p class="bill-name">{{ billName }}</p>
 				<p class="bill-price">${{ billAmount }}</p>
 			</div>
 			<div class="bill-icon">
-				<img
-					:src="triangleRed"
-					v-if="billDate <= today && billPaid === false"
-				/>
-				<img :src="circleCheck" v-else-if="billPaid === true" />
+				<img :src="triangleRed" v-if="billDate <= today && billPaid === 0" />
+				<img :src="circleCheck" v-else-if="billPaid === 1" />
 				<div v-else></div>
 			</div>
 		</div>
@@ -53,7 +49,7 @@ export default {
 		align-content: center;
 		width: 100%;
 		.bill-date {
-			color: #edf2ef;
+			color: #363537;
 			margin-right: 1em;
 			display: flex;
 			align-items: center;
@@ -66,6 +62,7 @@ export default {
 			border-radius: 16px;
 			background-color: #d9d9d9;
 			color: #363537;
+			border: solid 1px #363537;
 			.bill-name,
 			.bill-price {
 				background-color: #0cce6b;
@@ -109,7 +106,7 @@ export default {
 		&.future {
 			.bill-name,
 			.bill-price {
-				background-color: #767676;
+				background-color: #cccfce;
 			}
 		}
 		&.paid {

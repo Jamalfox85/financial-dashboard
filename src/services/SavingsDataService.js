@@ -4,9 +4,6 @@ class SavingsDataService {
 	getAll() {
 		return http.get(`/savings`);
 	}
-	// get(id) {
-	// 	return http.get(`/users/${id}`);
-	// }
 	create(data) {
 		return http.post("/savings", data);
 	}
@@ -16,9 +13,6 @@ class SavingsDataService {
 	delete(id) {
 		return http.delete(`/savings/${id}`);
 	}
-	// deleteAll() {
-	// 	return http.delete("/users");
-	// }
 	// findByLastName(lastName) {
 	// 	return http.get(`/users?LastName=${lastName}`);
 	// }
