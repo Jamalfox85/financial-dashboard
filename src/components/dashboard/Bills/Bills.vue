@@ -2,7 +2,7 @@
 	<div class="bills_wrapper">
 		<div class="header">
 			<h1>Bill Report</h1>
-			<img :src="circlePlus" />
+			<img :src="circlePlus" @click="showAddBillModal()" />
 		</div>
 		<div class="section-main">
 			<div class="section-header">
@@ -26,7 +26,10 @@
 					v-if="showBill(bill.bill_date) === true"
 				/>
 			</div>
-			<add-bill-modal />
+			<add-bill-modal
+				:showModal="displayAddBillModal"
+				@closeModal="closeAddBillModal"
+			/>
 		</div>
 	</div>
 </template>
@@ -47,6 +50,7 @@ export default {
 			bills: null,
 			interval: 1,
 			weeklyRange: null,
+			displayAddBillModal: false,
 		};
 	},
 	methods: {
@@ -67,6 +71,12 @@ export default {
 				let daysThisMonth = moment().daysInMonth();
 				return date <= daysThisMonth;
 			}
+		},
+		showAddBillModal() {
+			this.displayAddBillModal = true;
+		},
+		closeAddBillModal() {
+			this.displayAddBillModal = false;
 		},
 	},
 	mounted() {

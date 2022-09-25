@@ -29,12 +29,13 @@ exports.getAll = (req, res) => {
 
 exports.create = (req, res) => {
 	let goal = {
-		savings_name: req.body.savings_name,
-		goal_amount: req.body.goal_amount,
-		current_amount: req.body.current_amount,
+		bill_name: req.body.bill_name,
+		bill_amount: req.body.bill_amount,
+		bill_date: req.body.bill_date,
+		bill_paid: req.body.bill_paid,
 		Userid: 1,
 	};
-	Savings.create(goal).then((data) => {
+	Bills.create(goal).then((data) => {
 		res.send(data);
 	});
 };
