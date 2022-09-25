@@ -1,41 +1,43 @@
 <template lang="">
-	<div class="block-wrapper">
-		<div class="block-header">
-			<h1 class="header-text">{{ name }}</h1>
-			<div class="icons">
-				<img
-					class="icon"
-					src="../../../assets/images/circle-plus.png"
-					@click="showUpdateModal"
-				/>
-				<!-- <img class="icon" src="../../../assets/icons/circle-info-solid.svg" /> -->
-				<img
-					class="icon"
-					src="../../../assets/icons/delete-circle-xmark-solid.svg"
-					@click="deleteGoal"
-				/>
+	<div>
+		<div class="block-wrapper">
+			<div class="block-header">
+				<h1 class="header-text">{{ name }}</h1>
+				<div class="icons">
+					<img
+						class="icon"
+						src="../../../assets/images/circle-plus.png"
+						@click="showUpdateModal"
+					/>
+					<!-- <img class="icon" src="../../../assets/icons/circle-info-solid.svg" /> -->
+					<img
+						class="icon"
+						src="../../../assets/icons/delete-circle-xmark-solid.svg"
+						@click="deleteGoal"
+					/>
+				</div>
+			</div>
+			<div class="block-main">
+				<div class="progress-bar">
+					<div
+						class="progress-bar-progress"
+						:style="{
+							width: (current / goal) * 100 + '%',
+						}"
+					></div>
+				</div>
+				<h5 class="progress-text">${{ current }} / ${{ goal }}</h5>
 			</div>
 		</div>
-		<div class="block-main">
-			<div class="progress-bar">
-				<div
-					class="progress-bar-progress"
-					:style="{
-						width: (current / goal) * 100 + '%',
-					}"
-				></div>
-			</div>
-			<h5 class="progress-text">${{ current }} / ${{ goal }}</h5>
-		</div>
+		<update-savings-modal
+			:id="goalDetails.goalId"
+			:goalName="goalDetails.name"
+			:goalAmount="goalDetails.goalAmount"
+			:currentAmount="goalDetails.currentAmount"
+			:style="{ display: updateModalIsOopen ? 'flex' : 'none' }"
+			@close="closeUpdateModal"
+		/>
 	</div>
-	<update-savings-modal
-		:id="goalDetails.goalId"
-		:goalName="goalDetails.name"
-		:goalAmount="goalDetails.goalAmount"
-		:currentAmount="goalDetails.currentAmount"
-		:style="{ display: updateModalIsOopen ? 'flex' : 'none' }"
-		@close="closeUpdateModal"
-	/>
 </template>
 <script>
 import SavingsDataService from "../../../services/SavingsDataService";

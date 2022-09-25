@@ -1,27 +1,29 @@
 <template>
-	<div class="savingsGoal_wrapper">
-		<div class="header">
-			<h1>Savings Goals</h1>
-			<img
-				src="../../../assets/images/circle-plus.png"
-				@click="toggleModal('open')"
-			/>
+	<div>
+		<div class="savingsGoal_wrapper">
+			<div class="header">
+				<h1>Savings Goals</h1>
+				<img
+					src="../../../assets/images/circle-plus.png"
+					@click="toggleModal('open')"
+				/>
+			</div>
+			<div class="savings-goals">
+				<savings-goal-block
+					class="savings-block"
+					v-for="goal in goals"
+					:goalId="goal.id"
+					:name="goal.savings_name"
+					:current="goal.current_amount"
+					:goal="goal.goal_amount"
+				/>
+			</div>
 		</div>
-		<div class="savings-goals">
-			<savings-goal-block
-				class="savings-block"
-				v-for="goal in goals"
-				:goalId="goal.id"
-				:name="goal.savings_name"
-				:current="goal.current_amount"
-				:goal="goal.goal_amount"
-			/>
-		</div>
+		<add-savings-goal-modal
+			:style="{ display: showModal ? 'flex' : 'none' }"
+			@close="toggleModal"
+		/>
 	</div>
-	<add-savings-goal-modal
-		:style="{ display: showModal ? 'flex' : 'none' }"
-		@close="toggleModal"
-	/>
 </template>
 
 <script>

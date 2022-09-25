@@ -4,7 +4,7 @@
 			v-model="showModal"
 			classes="modal-container"
 			content-class="modal-content"
-			preventClick="true"
+			:preventClick="true"
 		>
 			<button class="modal__close" @click="closeModal">X</button>
 			<span class="modal__title">Add Bill</span>
@@ -70,7 +70,6 @@ export default {
 				this.billName = null;
 				this.billAmount = 0;
 				this.dueDate = null;
-				console.log("AddBillModal is now ", newVal);
 			},
 		},
 	},

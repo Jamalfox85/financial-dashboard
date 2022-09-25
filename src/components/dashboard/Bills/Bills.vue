@@ -85,7 +85,6 @@ export default {
 		this.weeklyRange = weekStart + " - " + weekEnd;
 
 		BillsDataService.getAll().then((res) => {
-			console.log(res);
 			this.bills = res.data;
 		});
 	},
