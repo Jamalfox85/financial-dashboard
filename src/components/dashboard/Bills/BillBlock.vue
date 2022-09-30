@@ -106,6 +106,7 @@ export default {
       }
       .bill-price {
         width: 20%;
+        min-width: 55px;
       }
     }
     .bill-icon {

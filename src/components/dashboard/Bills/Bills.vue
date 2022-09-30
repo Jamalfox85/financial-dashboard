@@ -94,7 +94,6 @@ export default {
 <style lang="scss" scoped>
 .bills_wrapper {
   height: 100%;
-  width: 500px;
   border-radius: 16px;
   padding: 1em;
   .header {
