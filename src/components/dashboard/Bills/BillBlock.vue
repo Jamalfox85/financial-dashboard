@@ -3,36 +3,37 @@
     <div
       class="bill"
       :class="{
-        late: billDate <= today && billPaid === 0,
-        upcoming: billDate < today + 7 && billDate > today && billPaid === 0,
-        paid: billPaid === 1,
-        future: billDate > today + 7 && billPaid === 0,
+        late: bill.bill_date <= today && bill.bill_paid === 0,
+        paid: bill.bill_paid === 1,
+        future: bill.bill_date > today + 7 && bill.bill_paid === 0,
       }"
+      @click="showUpdateBillModal"
     >
-      <small class="bill-date">{{ billDate }}</small>
       <div class="bill-block">
-        <p class="bill-name">{{ billName }}</p>
-        <p class="bill-price">${{ billAmount }}</p>
+        <div class="bill-date">
+          <p>{{ formattedBillDate() }}</p>
+        </div>
+        <p class="bill-name">{{ bill.bill_name }}</p>
+        <p class="bill-price">${{ bill.bill_amount }}</p>
       </div>
       <div class="bill-icon">
-        <img :src="triangleRed" v-if="billDate <= today && billPaid === 0" />
-        <img :src="circleCheck" v-else-if="billPaid === 1" />
+        <font-awesome-icon
+          v-if="bill.bill_date <= today && bill.bill_paid === 0"
+          class="warning-icon"
+          icon="fa-solid fa-triangle-exclamation"
+        />
+        <font-awesome-icon
+          class="check-icon"
+          v-if="bill.bill_paid === 1"
+          icon="fa-solid fa-circle-check"
+        />
         <div v-else></div>
       </div>
-      <font-awesome-icon
-        class="fa-icon"
-        icon="pen-to-square"
-        @click="showUpdateBillModal"
-      />
-      <font-awesome-icon class="fa-icon" icon="trash" @click="deleteBill" />
     </div>
-    <update-bill-modal
-      :showModal="displayUpdateBillModal"
-      @closeModal="closeUpdateBillModal"
-      :id="id"
-      :name="billName"
-      :date="billDate"
-      :amount="billAmount"
+    <bill-details-modal
+      :showModal="isShowingBillDetailsModal"
+      @close="closeUpdateBillModal"
+      :bill="bill"
     />
   </div>
 </template>
@@ -40,69 +41,79 @@
 import triangleRed from "../../../assets/images/triangle-red.png";
 import circleCheck from "../../../assets/images/circle-check.png";
 
-import BillsDataService from "../../../services/BillsDataService";
 import moment from "moment";
 
-import UpdateBillModal from "../../modals/UpdateBillModal.vue";
+import BillDetailsModal from "../../modals/BillDetailsModal.vue";
 
 let today = moment().date();
 
 export default {
-  props: ["id", "billName", "billDate", "billAmount", "billPaid"],
-  components: { UpdateBillModal },
+  props: ["bill"],
+  components: { BillDetailsModal },
   data() {
     return {
       triangleRed: triangleRed,
       circleCheck: circleCheck,
       today: today,
-      billId: this.id,
-      displayUpdateBillModal: false,
+      isShowingBillDetailsModal: false,
     };
   },
   methods: {
+    formattedBillDate() {
+      let month = moment().format("MM");
+      return month + "/" + this.bill.bill_date;
+    },
     showUpdateBillModal() {
-      this.displayUpdateBillModal = true;
+      this.isShowingBillDetailsModal = true;
     },
     closeUpdateBillModal() {
-      this.displayUpdateBillModal = false;
-    },
-    deleteBill() {
-      BillsDataService.delete(this.id);
+      this.isShowingBillDetailsModal = false;
     },
   },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+:root {
+  --white: #eaeff2;
+  --black: #000;
+  --darker-green: #6f8f72;
+  --dark-green: #77ad78;
+  --light-green: #8fd694;
+  --dark-accent: #504b43;
+  --dark-red: #b61408;
+  --red: #e3170a;
+}
 .bill_wrapper {
   margin: 0.5em 0;
   .bill {
     display: flex;
     align-content: center;
     width: 100%;
-    .bill-date {
-      color: #363537;
-      margin-right: 1em;
-      display: flex;
-      align-items: center;
-    }
     .bill-block {
-      height: fit-content;
+      height: 30px;
       width: 100%;
       display: flex;
       justify-content: space-between;
-      border-radius: 16px;
-      background-color: #d9d9d9;
-      color: #363537;
-      border: solid 1px #363537;
-      .bill-name,
-      .bill-price {
-        background-color: #0cce6b;
-        border-radius: 16px;
-        padding: 4px 10px;
-        margin-bottom: 0;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--white);
+      background-color: var(--dark-accent);
+      box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.25);
+      & > * {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px;
+      }
+      .bill-date {
+        height: 100%;
+        width: 20%;
+        border-right: solid 1px var(--white);
       }
       .bill-name {
-        width: 45%;
+        width: 60%;
+        justify-content: flex-start;
+        border-right: solid 1px var(--white);
       }
       .bill-price {
         width: 20%;
@@ -114,42 +125,31 @@ export default {
       width: 25px;
       display: flex;
       align-items: center;
-      img {
-        width: 25px;
-      }
-    }
-    .fa-icon {
-      margin: auto 0.5em;
-      height: 20px;
     }
 
     /* Bill States */
     &.late {
       .bill-block {
-        color: #edf2ef;
+        background-color: var(--dark-red);
       }
-      .bill-name,
-      .bill-price {
-        background-color: #ef2d56;
-      }
-    }
-    &.upcoming {
-      .bill-name,
-      .bill-price {
-        background-color: #dced31;
-      }
-    }
-    &.future {
-      .bill-name,
-      .bill-price {
-        background-color: #cccfce;
+      &:hover {
+        .bill-block {
+          background-color: #f0190a !important;
+        }
       }
     }
     &.paid {
-      .bill-block,
-      .bill-name,
-      .bill-price {
-        background-color: #0cce6b;
+      .bill-block {
+        background-color: var(--darker-green);
+      }
+    }
+    &:hover {
+      cursor: pointer;
+      .bill-block {
+        background-color: var(--light-green);
+        transform: scale(1.15);
+        opacity: 1;
+        transition: 0.15s ease-in;
       }
     }
   }

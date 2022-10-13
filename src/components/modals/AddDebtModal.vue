@@ -4,40 +4,65 @@
       v-model="showModal"
       classes="modal-container"
       content-class="modal-content"
-      :preventClick="true"
+      :prevent-click="true"
     >
-      <button class="modal__close" @click="closeModal">X</button>
-      <span class="modal__title">Add Debt</span>
-      <hr />
-      <div class="modal__content">
-        <p>Enter details of your Debt Form</p>
-        <div class="modal-form">
-          <label for="debt-name">
-            <span class="label">Debt Name</span>
-            <input id="debt-name" v-model="debtName" />
-          </label>
-          <label for="debt-amount">
-            <span class="label">Debt Amount</span>
-            <input id="debt-amount" v-model="debtAmount" />
-          </label>
-          <label for="debt-amount">
-            <span class="label">Debt Limit</span>
-            <input id="debt-amount" v-model="debtLimit" />
-          </label>
-          <label for="debt-due-date">
-            <span class="label">Debt Category</span>
-            <select id="debt-due-date" v-model="debtCategory">
-              <option v-for="category in debtCategories">
-                {{ category }}
-              </option>
-            </select>
-          </label>
-        </div>
+      <div class="modal-header">
+        <h1>Track Debt</h1>
+        <font-awesome-icon
+          class="closeBttn"
+          @click="closeModal"
+          icon="fa-solid fa-rectangle-xmark"
+        />
       </div>
-      <hr />
-      <div class="modal__action">
-        <button id="closeModal" @click="closeModal">cancel</button>
-        <button id="confirmModal" @click="submitDebt">confirm</button>
+      <div class="form-wrapper">
+        <FormKit
+          type="form"
+          id="add-debt-form"
+          :classes="{
+            outer: 'form-wrapper',
+          }"
+          submit-label="Submit"
+          @submit="submitDebt"
+        >
+          <p>Enter the details of your debt so we can help you keep track!</p>
+          <FormKit
+            type="text"
+            name="debtName"
+            label="Debt Name"
+            placeholder="Credit Card #1"
+            validation="required|text"
+            help="Which bill are you listing?"
+            v-model="debtName"
+          />
+          <FormKit
+            type="number"
+            name="debtAmount"
+            label="Debt Amount"
+            placeholder="$0"
+            validation="required|number"
+            help="How much do you owe?"
+            v-model="debtAmount"
+          />
+          <FormKit
+            type="number"
+            name="debtLimit"
+            label="Limit / Max"
+            placeholder="$2000"
+            validation="required|date"
+            help="What is your credit limit / max amount borrowed?"
+            v-model="debtLimit"
+          />
+          <FormKit
+            type="select"
+            name="debtCategory"
+            label="Choose A Category"
+            placeholder="Credit Cards"
+            validation="required"
+            help="Which best describes this type of debt?"
+            :options="formatDebtCategories()"
+            v-model="debtCategory"
+          />
+        </FormKit>
       </div>
     </vue-final-modal>
   </div>
@@ -52,12 +77,22 @@ export default {
   data() {
     return {
       debtName: null,
-      debtAmount: 0,
-      debtLimit: 0,
+      debtAmount: null,
+      debtLimit: null,
       debtCategory: null,
     };
   },
   methods: {
+    formatDebtCategories() {
+      let formattedList = [];
+      this.debtCategories.map((item) => {
+        if (item === "") {
+          console.log("PING");
+          return;
+        } else formattedList.push(`${item}`);
+      });
+      return formattedList;
+    },
     submitDebt() {
       let data = {
         debt_name: this.debtName,
@@ -77,15 +112,22 @@ export default {
     showModal: {
       handler(newVal, oldVal) {
         this.debtName = null;
-        this.debtAmount = 0;
-        this.debtLimit = 0;
+        this.debtAmount = null;
+        this.debtLimit = null;
         this.debtCategory = null;
       },
     },
   },
 };
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
+:root {
+  --white: #eaeff2;
+  --black: #000;
+  --dark-green: #77ad78;
+  --light-green: #8fd694;
+  --dark-accent: #504b43;
+}
 ::v-deep(.modal-container) {
   display: flex;
   justify-content: center;
@@ -95,64 +137,23 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.25rem;
-  background: #fff;
+  border: 1px solid var(--white);
+  border-radius: 12px;
+  background: var(--white);
   width: 600px;
 }
-.modal__title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  text-align: left;
-}
-.modal__content {
-  flex-grow: 1;
-  .modal-form {
-    display: flex;
-    flex-direction: column;
-    label /* Input Group */ {
-      margin: 0.5em 0;
-      .label /* Input Label Only */ {
-        font-weight: bold;
-        margin: 0.5em;
-      }
-      input {
-        border: solid 1px black;
-        border-radius: 8px;
-        padding: 0 1em;
-      }
-    }
-  }
-}
-.modal__action {
+.modal-header {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-shrink: 0;
-  padding: 1rem 0 0;
-  #closeModal {
-    border: solid 1px black;
-    border-radius: 12px;
-    padding: 4px 8px;
-    margin: 0 0.5em;
+  justify-content: space-between;
+  margin-bottom: 2em;
+  h1 {
+    font-size: 24px;
   }
-  #confirmModal {
-    border: solid 1px black;
-    border-radius: 12px;
-    padding: 4px 8px;
-    margin: 0 0.5em;
+  .closeBttn {
+    height: 2em;
   }
 }
-.modal__close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-}
-</style>
-
-<style scoped>
-.dark-mode div.modal-content {
-  border-color: #2d3748;
-  background-color: #1a202c;
+.form-wrapper {
+  border: solid 2px red;
 }
 </style>

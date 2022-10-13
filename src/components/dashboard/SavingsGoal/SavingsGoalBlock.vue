@@ -1,120 +1,124 @@
 <template lang="">
-	<div>
-		<div class="block-wrapper">
-			<div class="block-header">
-				<h1 class="header-text">{{ name }}</h1>
-				<div class="icons">
-					<img
-						class="icon"
-						src="../../../assets/images/circle-plus.png"
-						@click="showUpdateModal"
-					/>
-					<!-- <img class="icon" src="../../../assets/icons/circle-info-solid.svg" /> -->
-					<img
-						class="icon"
-						src="../../../assets/icons/delete-circle-xmark-solid.svg"
-						@click="deleteGoal"
-					/>
-				</div>
-			</div>
-			<div class="block-main">
-				<div class="progress-bar">
-					<div
-						class="progress-bar-progress"
-						:style="{
-							width: (current / goal) * 100 + '%',
-						}"
-					></div>
-				</div>
-				<h5 class="progress-text">${{ current }} / ${{ goal }}</h5>
-			</div>
-		</div>
-		<update-savings-modal
-			:id="goalDetails.goalId"
-			:goalName="goalDetails.name"
-			:goalAmount="goalDetails.goalAmount"
-			:currentAmount="goalDetails.currentAmount"
-			:style="{ display: updateModalIsOopen ? 'flex' : 'none' }"
-			@close="closeUpdateModal"
-		/>
-	</div>
+  <div>
+    <div class="block-wrapper" @click="showGoalDetailsModal">
+      <div class="block-header">
+        <h1 class="header-text">{{ goal.savings_name }}</h1>
+      </div>
+      <div class="block-main">
+        <h1 class="current-text">$ {{ goal.current_amount }}</h1>
+        <p class="goal-text">of $ {{ goal.goal_amount }}</p>
+        <div class="progress-bar">
+          <div
+            class="progress-bar-progress"
+            :style="{
+              width: (goal.current_amount / goal.goal_amount) * 100 + '%',
+            }"
+          ></div>
+        </div>
+      </div>
+    </div>
+    <goal-details-modal
+      :showModal="isShowingGoalDetailsModal"
+      :goal="goal"
+      @close="hideGoalDetailsModal"
+    />
+  </div>
 </template>
 <script>
 import SavingsDataService from "../../../services/SavingsDataService";
 
-import UpdateSavingsModal from "../../modals/UpdateSavingsModal.vue";
+import GoalDetailsModal from "../../modals/SavingsDetailsModal.vue";
 
 export default {
-	props: ["goalId", "name", "current", "goal"],
-	components: { UpdateSavingsModal },
-	data() {
-		return {
-			updateModalIsOopen: false,
-			goalDetails: {
-				goalId: this.goalId,
-				name: this.name,
-				goalAmount: this.goal,
-				currentAmount: this.current,
-			},
-		};
-	},
-	methods: {
-		showUpdateModal() {
-			this.updateModalIsOopen = true;
-		},
-		closeUpdateModal() {
-			this.updateModalIsOopen = false;
-		},
-		deleteGoal() {
-			let goalToDelete = this.goalId;
-			SavingsDataService.delete(goalToDelete);
-		},
-	},
+  props: ["goal"],
+  components: { GoalDetailsModal },
+  data() {
+    return {
+      isShowingGoalDetailsModal: false,
+    };
+  },
+  methods: {
+    showGoalDetailsModal() {
+      this.isShowingGoalDetailsModal = true;
+    },
+    hideGoalDetailsModal() {
+      this.isShowingGoalDetailsModal = false;
+    },
+  },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+:root {
+  --white: #eaeff2;
+  --black: #000;
+  --dark-green: #77ad78;
+  --light-green: #8fd694;
+  --dark-accent: #504b43;
+}
 .block-wrapper {
-	height: 125px;
-	width: 250px;
-	border: solid 2px #363537;
-	padding: 1em;
-	border-radius: 12px;
-	margin-bottom: 10px;
-	.block-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		.header-text {
-			font-size: 16px;
-			font-weight: bold;
-			margin: 0;
-		}
-		.icons {
-			display: flex;
-			.icon {
-				height: 20px;
-				margin-right: 4px;
-			}
-		}
-	}
-	.block-main {
-		width: 100%;
-		margin-top: 1.5em;
-		.progress-bar {
-			height: 15px;
-			width: 100%;
-			background-color: #d9d9d9;
-			border-radius: 16px;
-			.progress-bar-progress {
-				height: 100%;
-				background-color: #0cce6b;
-				border-radius: 16px;
-			}
-		}
-		.progress-text {
-			margin-top: 1em;
-			font-size: 14px;
-		}
-	}
+  height: 140px;
+  width: 170px;
+  padding: 1em;
+  border-radius: 12px;
+  background-color: var(--dark-green);
+  box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.35);
+  transition: 0.15s ease-in;
+  .block-header {
+    display: flex;
+    .header-text {
+      font-size: 12px;
+      font-weight: bold;
+      margin: 0;
+      color: var(--white);
+    }
+  }
+  .block-main {
+    width: 100%;
+    margin-top: 0.5em;
+    display: flex;
+    flex-direction: column;
+    .current-text {
+      align-self: flex-start;
+      font-size: 32px;
+      color: var(--white);
+      text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
+      margin-left: 8px;
+    }
+    .goal-text {
+      align-self: flex-end;
+      color: var(--white);
+      opacity: 50%;
+      margin: 0 8px 4px 0;
+    }
+    .progress-bar {
+      height: 8px;
+      width: 100%;
+      background-color: var(--white);
+      border-radius: 16px;
+      .progress-bar-progress {
+        height: 100%;
+        background-color: var(--light-green);
+        border-radius: 16px;
+        transition: 0.15s ease-in;
+      }
+    }
+    .progress-text {
+      margin-top: 1em;
+      font-size: 14px;
+    }
+  }
+
+  &:hover {
+    background-color: var(--light-green);
+    transform: scale(1.15);
+    cursor: pointer;
+    .block-main {
+      .progress-bar {
+        .progress-bar-progress {
+          background-color: var(--dark-green);
+        }
+      }
+    }
+  }
 }
 </style>

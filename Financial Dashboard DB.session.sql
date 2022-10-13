@@ -46,14 +46,15 @@ VALUES ("Vacation", 1500, 0, 1)
 
 --@block
 INSERT INTO DEBTS (debt_name, debt_amount, debt_limit, debt_category, UserId)
-Values("Nissan Versa", 10000, 13000, 'Auto', 1)
+Values("Student Loan #1", 2500, 3000, 'Student Loans', 1)
 
 --@block
 SELECT * FROM Debts WHERE Userid = 1
 -- UPDATE savings SET current_amount = 1000 WHERE id = 1
 
 --@block
-SELECT * FROM Debts
+SELECT * FROM Bills
+
 --@block
 ALTER TABLE Savings 
 ALTER COLUMN savings_name
@@ -64,11 +65,33 @@ ALTER TABLE Bills
 DROP COLUMN bill_long_date
 
 --@block
-DELETE FROM `debts`
-WHERE debt_category IS NULL
+DELETE FROM `bills`
+WHERE bill_date LIKE '%2022-%'
 
 --@block
-UPDATE bills SET bill_paid = 1 WHERE id = 1
+UPDATE bills SET bill_date = '08' WHERE id = 10
 
 --@block
 SELECT DISTINCT debt_category FROM Debts
+
+
+--@block
+CREATE TABLE Incomes (
+    incomeID INT NOT NULL AUTO_INCREMENT,
+    incomeName VARCHAR(255) NOT NULL,
+    incomeAmount INT NOT NULL,
+    UserId INT,
+    PRIMARY KEY(incomeID),
+    FOREIGN KEY (UserId) REFERENCES Users(id)
+)
+
+--@block
+INSERT INTO Incomes(incomeName, incomeAmount)
+VALUES ('test', 100)
+
+--@block
+SELECT * FROM Incomes
+
+--@block
+ALTER TABLE Incomes
+RENAME COLUMN incomeID to id

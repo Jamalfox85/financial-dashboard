@@ -1,149 +1,153 @@
 <template>
-	<div class="modal-overlay-wrapper">
-		<div class="modal-wrapper">
-			<div class="modal-header">
-				<h1>Add Savings Goal</h1>
-				<img
-					src="../../assets/icons/circle-xmark-solid.svg"
-					class="close-modal"
-					@click="closeModal"
-				/>
-			</div>
-			<div class="modal-main">
-				<label for="goal-name">
-					Goal Name
-					<input id="goal-name" v-model="goalName" />
-				</label>
-				<label for="current-amount">
-					Current Amount
-					<input id="current-amount" v-model="currentAmount" />
-				</label>
-				<label for="goal-amount">
-					Goal Amount
-					<input id="goal-amount" v-model="goalAmount" />
-				</label>
-			</div>
-			<div class="modal-footer">
-				<button class="cancel-bttn" @click="closeModal">Cancel</button>
-				<button class="submit-bttn" @click="submitGoal()">Submit</button>
-			</div>
-		</div>
-	</div>
+  <vue-final-modal
+    v-model="showModal"
+    classes="modal-container"
+    content-class="modal-content"
+    :prevent-click="true"
+  >
+    <div class="modal-header">
+      <h1>Add Goal</h1>
+      <font-awesome-icon
+        class="closeBttn"
+        @click="closeModal"
+        icon="fa-solid fa-rectangle-xmark"
+      />
+    </div>
+    <div class="form-wrapper">
+      <FormKit
+        type="form"
+        id="add-goal-form"
+        submit-label="Add Goal"
+        @submit="submitGoal"
+        :classes="{
+          outer: 'mb-5',
+          label: 'block mb-1 font-bold text-sm',
+          inner:
+            'max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500',
+          input:
+            'w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400',
+          help: 'text-xs text-gray-500',
+        }"
+      >
+        <p>
+          Enter the details of your latest savings goal. We'll help keep track
+          of it!
+        </p>
+        <FormKit
+          outer-class="modal-name-input"
+          type="text"
+          name="goalName"
+          label="Goal Name"
+          placeholder="Vacation"
+          validation="required|text"
+          help="What are you saving for?"
+          v-model="goalName"
+        />
+        <FormKit
+          type="number"
+          name="goalAmount"
+          label="Goal Amount"
+          placeholder="$1,000"
+          validation="required|number"
+          help="How much do you want to save?"
+          v-model="goalAmount"
+        />
+        <FormKit
+          type="number"
+          name="currentAmount"
+          label="Current Amount"
+          placeholder="$0"
+          validation="required|number"
+          help="How much have you saved so far?"
+          v-model="currentAmount"
+        />
+      </FormKit>
+    </div>
+  </vue-final-modal>
 </template>
 <script>
+import { ref } from "vue";
 import SavingsDataService from "../../services/SavingsDataService";
+
+import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
+
 export default {
-	data() {
-		return {
-			goalName: null,
-			currentAmount: 0,
-			goalAmount: 0,
-		};
-	},
-	methods: {
-		submitGoal() {
-			let data = {
-				savings_name: this.goalName,
-				goal_amount: this.goalAmount,
-				current_amount: this.currentAmount,
-				Userid: 1,
-			};
-			SavingsDataService.create(data);
-			this.closeModal();
-		},
-		closeModal() {
-			this.$emit("close", "closed");
-		},
-	},
+  props: ["showModal"],
+  components: { VueFinalModal, ModalsContainer },
+  data() {
+    return {
+      goalName: null,
+      currentAmount: null,
+      goalAmount: null,
+    };
+  },
+  methods: {
+    submitGoal() {
+      let data = {
+        savings_name: this.goalName,
+        goal_amount: this.goalAmount,
+        current_amount: this.currentAmount,
+        Userid: 1,
+      };
+      SavingsDataService.create(data);
+      this.closeModal();
+    },
+    closeModal() {
+      this.$emit("close", "closed");
+    },
+  },
+  watch: {
+    showModal: {
+      handler(newVal, oldVal) {
+        this.goalName = null;
+        this.currentAmount = null;
+        this.goalAmount = null;
+      },
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-.modal-overlay-wrapper {
-	height: 100vh;
-	width: 100vw;
-	background-color: rgba(175, 175, 175, 0.75);
-	position: absolute;
-	top: 0;
-	left: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 999;
-	.modal-wrapper {
-		height: 375px;
-		width: 400px;
-		background-color: #363537;
-		border-radius: 12px;
-		padding: 1em;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		.modal-header {
-			display: flex;
-			align-items: center;
-			color: #fff;
-			border-bottom: solid 2px #fff;
-			padding: 0.5em;
-			h1 {
-				font-size: 24px;
-				margin: 0;
-			}
-			.close-modal {
-				height: 30px;
-				fill: white;
-			}
-		}
-		.modal-main {
-			height: 100%;
-			display: flex;
-			flex-wrap: wrap;
-			// flex-direction: column;
-			justify-content: center;
-			// align-items: flex-start;
-			label {
-				display: flex;
-				flex-direction: column;
-				color: #fff;
-				text-align: left;
-				width: 40%;
-				margin: 1em;
-				&:first-child {
-					width: 100%;
-					input {
-						width: 100%;
-					}
-				}
-				input {
-					border-radius: 12px;
-					height: 1.75em;
-					width: 60px;
-					color: #363537;
-					padding-left: 2em;
-					font-weight: bold;
-					&:focus {
-						outline: none;
-					}
-				}
-			}
-		}
-		.modal-footer {
-			display: flex;
-			justify-content: flex-end;
-			font-size: 16px;
-			border-top: solid 2px #fff;
-			padding: 1em;
-			.cancel-bttn {
-				color: rgba(255, 255, 255, 0.5);
-				margin-right: 0.5em;
-			}
-			.submit-bttn {
-				color: #fff;
-				margin: 0 0.5em;
-				background-color: #0cc36b;
-				border-radius: 12px;
-				padding: 0.5em 1em;
-			}
-		}
-	}
+:root {
+  --white: #eaeff2;
+  --black: #000;
+  --dark-green: #77ad78;
+  --light-green: #8fd694;
+  --dark-accent: #504b43;
+}
+::v-deep(.modal-container) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+::v-deep(.modal-content) {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border: 1px solid var(--white);
+  border-radius: 12px;
+  background: var(--white);
+  width: 600px;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2em;
+  h1 {
+    font-size: 24px;
+  }
+  .closeBttn {
+    height: 2em;
+  }
+}
+.form-wrapper {
+  display: flex;
+  .formkit-inner {
+    border: solid 4px blue;
+  }
+}
+.modal-name-input,
+.my-class .foo-bar {
+  border: solid 4px blue;
 }
 </style>

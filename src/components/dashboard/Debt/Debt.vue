@@ -2,24 +2,20 @@
   <div class="debt_wrapper">
     <div class="header">
       <h1>Debt</h1>
-      <img
-        src="../../../assets/images/circle-plus.png"
-        @click="showAddDebtModal()"
-      />
+      <add-bttn @click="showAddDebtModal()" />
     </div>
     <div class="main">
       <div class="debt-category" v-for="category in categories">
         <h3 class="category-header">{{ category }}</h3>
-        <div class="debt-block-wrapper" v-for="debt in debts">
-          <debt-block
-            :id="debt.id"
-            :title="debt.debt_name"
-            :debt="debt.debt_amount"
-            :limit="debt.debt_limit"
-            :category="debt.debt_category"
-            :debtCategories="categories"
-            v-if="category === debt.debt_category"
-          />
+        <div class="debt-block-wrapper">
+          <div
+            v-for="debt in debts"
+            :style="{
+              display: debt.debt_category === category ? 'block' : 'none',
+            }"
+          >
+            <debt-block :debt="debt" :debtCategories="categories" />
+          </div>
         </div>
       </div>
     </div>
@@ -33,18 +29,21 @@
 <script>
 import DebtDataService from "../../../services/DebtDataService";
 
+import AddBttn from "../General/AddBttn.vue";
 import DebtBlock from "./DebtBlock.vue";
+
 import AddDebtModal from "../../modals/AddDebtModal.vue";
 
 export default {
   components: {
+    AddBttn,
     DebtBlock,
     AddDebtModal,
   },
   data() {
     return {
       categories: [],
-      debts: [],
+      debts: {},
       displayAddDebtModal: false,
     };
   },
@@ -63,51 +62,109 @@ export default {
     DebtDataService.getCategories().then((res) => {
       let categoryList = res.data.categories;
       categoryList.map((item, index) => {
-        this.categories.push(item.debt_category);
+        if (item.debt_category == null) {
+          return;
+        } else this.categories.push(item.debt_category);
       });
     });
   },
 };
 </script>
 <style lang="scss">
+:root {
+  --white: #eaeff2;
+  --black: #000;
+  --darker-green: #6f8f72;
+  --dark-green: #77ad78;
+  --light-green: #8fd694;
+  --dark-accent: #504b43;
+  --dark-red: #b61408;
+  --red: #e3170a;
+}
 .debt_wrapper {
-  width: 100%;
-  height: 100%;
-  border: solid 2px #333;
-  padding: 1em;
   .header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     margin-bottom: 1em;
-    width: 250px;
     h1 {
+      position: relative;
+      z-index: 2;
       font-size: 24px;
       font-weight: bold;
-      width: fit-content;
-    }
-    img {
-      height: 28px;
+      color: var(--white);
+
+      &:after {
+        content: "Debt";
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        height: 100%;
+        width: 100%;
+        z-index: -1;
+        -webkit-text-stroke: 1px var(--dark-green);
+        color: transparent;
+      }
     }
   }
   .main {
     display: flex;
+    justify-content: flex-start;
     align-items: flex-start;
+    overflow-x: auto;
+    background-color: var(--dark-green);
+    border-radius: 12px;
+    padding: 1em;
+    box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.25);
     .debt-category {
-      width: 30%;
-      border: solid 2px red;
-      margin: 1em;
+      margin-right: 2em;
       padding: 1em;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       .category-header {
-        font-weight: bold;
-        border: solid 1px #777;
-        border-radius: 12px;
-        box-shadow: 2px 2px 5px #444;
+        font-size: 16px;
+        color: var(--white);
         margin-bottom: 1em;
       }
       .debt-block-wrapper {
-        margin-bottom: 0.5em;
+        display: flex;
+        flex-direction: column;
+        height: 120px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 1em;
+        & > * {
+          margin-bottom: 12px;
+        }
+        &::-webkit-scrollbar {
+          width: 4px;
+          height: 40px;
+        }
+        &::-webkit-scrollbar-thumb {
+          height: 10px;
+          border-radius: 12px;
+          background-color: var(--white);
+        }
+        &::-webkit-scrollbar-track {
+          height: 20px;
+          border-radius: 12px;
+          background-color: var(--dark-accent);
+        }
       }
+    }
+    &::-webkit-scrollbar {
+      height: 12px;
+      width: 100%;
+    }
+    &::-webkit-scrollbar-thumb {
+      height: 10px;
+      border-radius: 12px;
+      background-color: var(--white);
+    }
+    &::-webkit-scrollbar-track {
+      height: 20px;
+      border-radius: 12px;
+      background-color: var(--dark-accent);
     }
   }
 }
