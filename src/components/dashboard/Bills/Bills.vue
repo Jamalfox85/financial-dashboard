@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     BillsDataService.getAll().then((res) => {
+      console.log("BILLS: ", res.data);
       this.bills = res.data;
     });
   },

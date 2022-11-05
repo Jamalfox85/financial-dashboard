@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar-wrapper">
     <div class="logo">
-      <h1>Financial Dashboard</h1>
+      <h1>Tauro Finance</h1>
     </div>
     <div class="profile-group">
       <div class="portrait-group">
@@ -43,7 +43,6 @@ export default {
   padding: 2em;
   border-radius: 12px;
   color: #edf2ef;
-  background-color: var(--dark-green);
   .logo {
     position: relative;
     display: flex;
@@ -53,17 +52,6 @@ export default {
       margin-left: 4px;
       position: relative;
       z-index: 2;
-    }
-    h1:after {
-      content: "Financial Dashboard";
-      position: absolute;
-      top: 2px;
-      right: 2px;
-      height: 100%;
-      width: 100%;
-      z-index: -1;
-      -webkit-text-stroke: 2px var(--black);
-      color: transparent;
     }
   }
   .profile-group {
@@ -82,7 +70,7 @@ export default {
         position: absolute;
         height: 100%;
         width: 100%;
-        border: solid 1px var(--light-green);
+        border: solid 1px #eee;
         border-radius: 50%;
         transition: 0.1s ease-in-out;
       }
@@ -90,7 +78,7 @@ export default {
         position: absolute;
         height: 85%;
         width: 85%;
-        border: solid 4px var(--light-green);
+        border: solid #ddd;
         border-radius: 50%;
         transition: 0.1s ease-in-out;
       }

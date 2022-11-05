@@ -2,13 +2,31 @@ module.exports = (sequelize, Sequelize) => {
   const Incomes = sequelize.define(
     "Incomes",
     {
-      incomeName: {
+      name: {
         type: Sequelize.STRING,
       },
-      incomeAmount: {
+      amount: {
         type: Sequelize.INTEGER,
       },
-      UserId: {
+      date: {
+        type: Sequelize.INTEGER,
+      },
+      frequency: {
+        type: Sequelize.INTEGER,
+      },
+      company: {
+        type: Sequelize.STRING,
+      },
+      type: {
+        type: Sequelize.INTEGER,
+      },
+      start_date: {
+        type: Sequelize.DATE,
+      },
+      end_date: {
+        type: Sequelize.DATE,
+      },
+      userid: {
         type: Sequelize.INTEGER,
       },
     },

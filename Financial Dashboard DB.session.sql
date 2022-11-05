@@ -6,10 +6,10 @@ ALTER TABLE `Users`
 DROP COLUMN updatedAt;
 
 --@block
-DROP TABLE savings;
+DROP TABLE Incomes;
 
 --@block
-CREATE TABLE Savings (
+CREATE TABLE Test (
     SavingsId INT NOT NULL AUTO_INCREMENT,
     savings_name VARCHAR(255) NOT NULL,
     goal_amount INT NOT NULL,
@@ -20,17 +20,32 @@ CREATE TABLE Savings (
 );
 
 --@block
-CREATE TABLE Bills (
-    billId INT NOT NULL AUTO_INCREMENT,
-    bill_name VARCHAR(255) NOT NULL,
-    bill_amount VARCHAR(255) NOT NULL,
-    bill_date VARCHAR(255) NOT NULL,
-    bill_long_date VARCHAR(255) NOT NULL,
-    bill_paid BOOLEAN NOT NULL,
-    UserId INT,
-    PRIMARY KEY (billId),
-    FOREIGN KEY (UserId) REFERENCES Users(id)
-)
+CREATE TABLE bills (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    amount INT NOT NULL,
+    date INT NOT NULL,
+    status INT NOT NULL,
+    userid INT NOT NULL,
+    frequency INT NOT NULL,
+    company VARCHAR(255),
+    PRIMARY KEY (id),
+    FOREIGN KEY (userid) REFERENCES Users(id)
+);
+
+--@block
+CREATE TABLE incomes (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    amount INT NOT NULL,
+    date INT NOT NULL,
+    frequency INT NOT NULL,
+    company VARCHAR(255),
+    type INT NOT NULL,
+    userid INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (userid) REFERENCES Users(id)
+);
 
 --@block
 ALTER TABLE `bills`
@@ -95,3 +110,38 @@ SELECT * FROM Incomes
 --@block
 ALTER TABLE Incomes
 RENAME COLUMN incomeID to id
+
+--@block 
+SELECT * FROM bills
+
+--@block
+ALTER TABLE incomes
+ADD end_date DATE
+
+--@block
+ALTER TABLE Bills
+RENAME TO bills
+
+--@block
+ALTER TABLE bills
+MODIFY COLUMN amount INT
+
+--@block
+INSERT INTO bills (name, amount, date, status, frequency, company, userid)
+VALUES ('Apple Card', 45, 31, 1, 21, 'Apple', 1)
+
+--@block
+INSERT INTO incomes (name, amount, date, frequency, company, type, userid)
+VALUES ('TA Paycheck', 440, 0, 32, '2U', 2, 1)
+
+--@block
+ALTER TABLE bills
+ADD CONSTRAINT date CHECK (date <= 31);
+
+--@BLOCK
+UPDATE incomes SET end_date = '2023-03-15' WHERE company LIKE "2U"
+
+--@block
+SELECT SUM(amount)
+FROM bills
+where userid = 1

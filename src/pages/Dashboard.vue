@@ -1,17 +1,19 @@
 <template>
-  <div class="dashboard-wrapper text-center p-2">
+  <div class="dashboard-wrapper p-2">
     <div class="grid-wrapper">
-      <savings-goal class="savingsGoals" />
+      <monthly-overview class="monthly-overview" />
+      <!-- <savings-goal class="savingsGoals" />
       <bills class="bills" />
       <credit class="credit"></credit>
       <debt class="debt" />
       <income class="income" />
-      <!-- <div class="netIncome"></div> -->
+      <div class="netIncome"></div> -->
     </div>
   </div>
 </template>
 
 <script>
+import MonthlyOverview from "../components/dashboard/MonthlyOverview/MonthlyOverview.vue";
 import SavingsGoal from "../components/dashboard/SavingsGoal/SavingsGoal.vue";
 import PaycheckTimeline from "../components/dashboard/PaycheckTimeline.vue";
 import WeeklyFocus from "../components/dashboard/WeeklyFocus.vue";
@@ -23,6 +25,7 @@ import Income from "../components/dashboard/Income/Income.vue";
 
 export default {
   components: {
+    MonthlyOverview,
     SavingsGoal,
     PaycheckTimeline,
     Credit,
@@ -47,45 +50,55 @@ export default {
     height: 100%;
     width: 90vw;
     display: grid;
-    grid-template-areas:
-      "savingsGoals savingsGoals savingsGoals bills"
-      "credit debt debt bills"
-      "income income netIncome bills";
-    grid-template-rows: repeat(3, 1fr);
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     grid-column-gap: 1em;
     grid-row-gap: 1em;
     & > * {
       position: relative;
-      background-color: var(--brown);
       border-radius: 12px;
       border: solid 1px rgba(0, 0, 0, 0.25);
-      box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
-      padding: 1em;
+      padding: 12px;
+    }
+    .monthly-overview {
+      grid-row: span 6;
+      grid-column: span 4;
     }
     .savingsGoals {
-      grid-area: savingsGoals;
-      flex-grow: 1;
+      // grid-area: savingsGoals;
+      // flex-grow: 1;
+      grid-row: 1/2;
+      grid-column: 4/13;
     }
     .bills {
-      grid-area: bills;
-      flex-grow: 1;
+      // grid-area: bills;
+      // flex-grow: 1;
+      grid-row: span 3;
+      grid-column: span 1;
     }
     .credit {
-      grid-area: credit;
-      flex-grow: 1;
+      // grid-area: credit;
+      // flex-grow: 1;
+      grid-row: span 1;
+      grid-column: span 1;
     }
     .debt {
-      grid-area: debt;
-      flex-grow: 1;
+      // grid-area: debt;
+      // flex-grow: 1;
+      grid-row: span 1;
+      grid-column: span 2;
     }
     .income {
-      grid-area: income;
-      flex-grow: 1;
+      // grid-area: income;
+      // flex-grow: 1;
+      grid-row: span 1;
+      grid-column: span 1;
     }
     .netIncome {
-      grid-area: netIncome;
-      flex-grow: 1;
+      // grid-area: netIncome;
+      // flex-grow: 1;
+      grid-row: span 2;
+      grid-column: span 1;
     }
   }
 }

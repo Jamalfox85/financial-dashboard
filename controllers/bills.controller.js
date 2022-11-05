@@ -28,20 +28,21 @@ exports.getAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-  let goal = {
-    bill_name: req.body.bill_name,
-    bill_amount: req.body.bill_amount,
-    bill_date: req.body.bill_date,
-    bill_paid: req.body.bill_paid,
-    Userid: 1,
+  let bill = {
+    name: req.body.name,
+    amount: req.body.amount,
+    date: req.body.date,
+    status: req.body.status,
+    frequency: req.body.frequency,
+    company: req.body.company,
   };
-  Bills.create(goal).then((data) => {
+  Bills.create(bill).then((data) => {
     res.send(data);
   });
 };
 
 // Find a single Tutorial with an id
-exports.findONe = (req, res) => {};
+exports.findOne = (req, res) => {};
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {

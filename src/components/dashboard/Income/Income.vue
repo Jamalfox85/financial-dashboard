@@ -47,6 +47,7 @@ export default {
     IncomesDataService.getAll().then((res) => {
       let incomeStreamsData = res.data;
       this.incomeStreams = incomeStreamsData;
+      console.log("INCOME STREAMS: ", incomeStreamsData);
 
       incomeStreamsData.map((item) => {
         this.totalIncome = this.totalIncome + item.incomeAmount;
