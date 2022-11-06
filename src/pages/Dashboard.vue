@@ -62,7 +62,7 @@ export default {
     }
     .monthly-overview {
       grid-row: span 6;
-      grid-column: span 4;
+      grid-column: span 6;
     }
     .savingsGoals {
       // grid-area: savingsGoals;

@@ -145,3 +145,9 @@ UPDATE incomes SET end_date = '2023-03-15' WHERE company LIKE "2U"
 SELECT SUM(amount)
 FROM bills
 where userid = 1
+
+--@block
+SELECT * from incomes
+
+--@block
+UPDATE bills SET status = 0 WHERE id = 2
