@@ -2,6 +2,7 @@
   <div class="bills_wrapper">
     <div class="header">
       <h1>Bill Report</h1>
+      {{ apolloData }}
       <add-bttn @click="showAddBillModal()" />
     </div>
     <div class="section-main">
@@ -35,6 +36,8 @@
   </div>
 </template>
 <script>
+import gql from "graphql-tag";
+
 import moment from "moment";
 
 import BillsDataService from "../../../services/BillsDataService";
@@ -42,6 +45,18 @@ import BillsDataService from "../../../services/BillsDataService";
 import AddBttn from "../General/AddBttn.vue";
 import billBlock from "./BillBlock.vue";
 import AddBillModal from "../../modals/AddBillModal.vue";
+
+const GET_BILLS_QUERY = gql`
+  query getBillsQuery {
+    bills {
+      id
+      name
+    }
+  }
+`;
+
+// 86b27233-68ec-4ff5-ad2a-0aab04d13ba8 (userid)
+// 1221dfb2-4a79-423a-9fb7-6cf937ff7908(bill group id)
 
 export default {
   components: { AddBttn, billBlock, AddBillModal },
@@ -51,6 +66,16 @@ export default {
       interval: 1,
       displayAddBillModal: false,
     };
+  },
+  apollo: {
+    apolloData: gql`
+      query getBillsQuery {
+        bills {
+          id
+          name
+        }
+      }
+    `,
   },
   methods: {
     setInterval(interval) {

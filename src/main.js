@@ -1,4 +1,4 @@
-import { createApp } from "vue";
+import { createApp, provide, h } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import "./index.css";
@@ -22,7 +22,38 @@ import "@formkit/themes/genesis";
 /* Particles */
 import Particles from "vue3-particles";
 
-const app = createApp(App);
+/* Apollo */
+import gql from "graphql-tag";
+
+import { DefaultApolloClient } from "@vue/apollo-composable";
+import {
+  ApolloClient,
+  createHttpLink,
+  InMemoryCache,
+} from "@apollo/client/core";
+
+const httpLink = createHttpLink({
+  uri: "https://dominant-stag-27.hasura.app/v1/graphql",
+  headers: {
+    "content-type": "application/json",
+    "x-hasura-access-key":
+      "d0KUY7BtHwKgjHnX5Bs8MspXLi0WqKefGRrq640cgHVeQJIIDu6p8gqI0rpneB2y",
+  },
+});
+const cache = new InMemoryCache();
+const apolloClient = new ApolloClient({
+  link: httpLink,
+  cache,
+});
+
+const app = createApp({
+  setup() {
+    provide(DefaultApolloClient, apolloClient);
+  },
+
+  render: () => h(App),
+});
+
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(plugin, defaultConfig);
 app.use(router);

@@ -2,6 +2,8 @@
   <div class="monthly-overview-wrapper">
     <div class="section-header flex justify-between items-center">
       <h2 class="text-2xl">Expenses</h2>
+      {{ apolloData }}
+
       <font-awesome-icon
         class="text-2xl"
         icon="fa-solid fa-triangle-exclamation"
@@ -70,10 +72,25 @@
   </div>
 </template>
 <script lang="ts">
+import { computed, watchEffect } from "vue";
+import gql from "graphql-tag";
+import { useQuery, useResult } from "@vue/apollo-composable";
+
 import IncomesDataService from "../../../services/IncomeDataService";
 import BillsDataService from "../../../services/BillsDataService";
 
 import moment from "moment";
+
+const GET_BILLS_QUERY = gql`
+  query {
+    bills {
+      name
+      date
+      amount
+      status
+    }
+  }
+`;
 
 export default {
   data() {
@@ -129,15 +146,21 @@ export default {
     },
   },
   mounted() {
-    BillsDataService.getAll().then((res) => {
-      console.log("BILLS: ", res.data);
-      this.bills = res.data;
-    });
+    // BillsDataService.getAll().then((res) => {
+    //   console.log("BILLS: ", res.data);
+    //   this.bills = res.data;
+    // });
 
-    IncomesDataService.getAll().then((res) => {
-      console.log("INCOMES: ", res.data);
-      this.incomes = res.data;
+    // IncomesDataService.getAll().then((res) => {
+    //   console.log("INCOMES: ", res.data);
+    //   this.incomes = res.data;
+    // });
+    const { result } = useQuery(GET_BILLS_QUERY);
+    const bills = computed(() => result.value?.bills ?? []);
+    watchEffect(() => {
+      console.log("Bills: ", bills);
     });
+    this.bills = bills;
   },
 };
 </script>

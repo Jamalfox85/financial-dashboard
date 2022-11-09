@@ -147,7 +147,7 @@ FROM bills
 where userid = 1
 
 --@block
-SELECT * from incomes
+SELECT * from bills
 
 --@block
 UPDATE bills SET status = 0 WHERE id = 2
