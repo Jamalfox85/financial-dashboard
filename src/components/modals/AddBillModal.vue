@@ -30,7 +30,7 @@
             name="billName"
             label="Bill Name"
             placeholder="Electricity"
-            validation="required|text"
+            validation=""
             help="Which bill are you listing?"
             v-model="billName"
           />
@@ -39,7 +39,7 @@
             name="billAmount"
             label="Bill Amount"
             placeholder="$125"
-            validation="required|number"
+            validation=""
             help="How much do you pay?"
             v-model="billAmount"
           />
@@ -48,9 +48,27 @@
             name="dueDate"
             label="Due Date"
             placeholder="28"
-            validation="required|number"
+            validation=""
             help="What day of the month is it due?"
             v-model="dueDate"
+          />
+          <FormKit
+            type="select"
+            name="frequency"
+            label="Bill Frequency"
+            validation=""
+            help="How often do you pay this bill?"
+            v-model="frequency"
+            :options="{ 31: 'Monthly', 32: 'Weekly' }"
+          />
+          <FormKit
+            type="select"
+            name="billGroups"
+            label="Bill Groups"
+            validation=""
+            help="Which Bill Group Will This Bill Belong To?"
+            v-model="billGroup"
+            :options="formatBillGroups"
           />
         </FormKit>
       </div>
@@ -60,44 +78,77 @@
 <script>
 import BillsDataService from "../../services/BillsDataService";
 import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
+import { computed, watchEffect } from "vue";
+import gql from "graphql-tag";
+import { useQuery, useResult, useMutation } from "@vue/apollo-composable";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
-  props: ["showModal"],
+  props: ["showModal", "billGroups"],
   data() {
     return {
       billName: null,
       billAmount: null,
       dueDate: null,
+      frequency: 1,
+      billGroup: null,
     };
+  },
+  setup() {
+    const { mutate: addBillRecord } = useMutation(gql`
+      mutation addBillRecord(
+        $name: String!
+        $date: date!
+        $bill_group_id: uuid!
+        $amount: bigint!
+        $frequency: bigint!
+        $user_id: uuid!
+      ) {
+        insert_bills(
+          objects: {
+            name: $name
+            date: $date
+            bill_group_id: $bill_group_id
+            amount: $amount
+            frequency: $frequency
+            user_id: $user_id
+          }
+        ) {
+          returning {
+            id
+          }
+        }
+      }
+    `);
+    return {
+      addBillRecord,
+    };
+  },
+  computed: {
+    formatBillGroups() {
+      let formattedBillGroups = {};
+      this.billGroups.map((item, index) => {
+        formattedBillGroups[item.id] = item.group_name;
+      });
+      console.log("FORMATTED: ", formattedBillGroups);
+      return formattedBillGroups;
+    },
   },
   methods: {
     submitBill() {
-      let formattedDate;
-      if (this.dueDate.length === 1) {
-        formattedDate = "0" + this.dueDate;
-      } else formattedDate = this.dueDate;
-      let data = {
-        bill_name: this.billName,
-        bill_amount: this.billAmount,
-        bill_date: formattedDate /* Format ex. = '30' */,
-        bill_paid: false,
-        Userid: 1,
-      };
-      BillsDataService.create(data);
+      console.log("Groups: ", this.billGroups);
+      this.addBillRecord({
+        name: this.billName,
+        date: `2022-11-${this.dueDate}`,
+        bill_group_id: this.billGroup,
+        amount: this.billAmount,
+        frequency: this.frequency,
+        user_id: "86b27233-68ec-4ff5-ad2a-0aab04d13ba8",
+      });
       this.closeModal();
     },
     closeModal() {
       this.$emit("closeModal", true);
-    },
-  },
-  watch: {
-    showModal: {
-      handler(newVal, oldVal) {
-        this.billName = null;
-        this.billAmount = null;
-        this.dueDate = null;
-      },
     },
   },
 };

@@ -2,7 +2,6 @@
   <div class="bills_wrapper">
     <div class="header">
       <h1>Bill Report</h1>
-      {{ apolloData }}
       <add-bttn @click="showAddBillModal()" />
     </div>
     <div class="section-main">
