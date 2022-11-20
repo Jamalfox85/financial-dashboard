@@ -98,26 +98,27 @@
 <script lang="ts">
 import { computed, watchEffect } from "vue";
 import gql from "graphql-tag";
-import { useQuery, useResult, useMutation } from "@vue/apollo-composable";
+import { useQuery, useMutation } from "@vue/apollo-composable";
 import AddBillModal from "../../modals/AddBillModal.vue";
 import AddBillGroupModal from "../../modals/AddBillGroupModal.vue";
-
 import moment from "moment";
+import { reactive } from "vue";
+import { sessionDetails } from "../../../userData";
 
 const GET_BILLS_QUERY = gql`
-  query {
-    bills {
+  query ($userId: uuid!) {
+    bills(where: { user_id: { _eq: $userId } }) {
       id
       name
       amount
       bill_group_id
       date
     }
-    bill_groups {
+    bill_groups(where: { user_id: { _eq: $userId } }) {
       id
       group_name
     }
-    incomes {
+    incomes(where: { userid: { _eq: $userId } }) {
       id
       name
       amount
@@ -138,6 +139,7 @@ export default {
       amountPaid: 0,
       displayAddBillModal: false,
       displayAddBillGroupModal: false,
+      session: sessionDetails,
     };
   },
   setup() {
@@ -223,7 +225,10 @@ export default {
     },
   },
   mounted() {
-    const { result } = useQuery(GET_BILLS_QUERY);
+    const variables = reactive({
+      userId: this.session.user.id,
+    });
+    const { result } = useQuery(GET_BILLS_QUERY, variables);
     const bills = computed(() => result.value?.bills ?? []);
     const billGroups = computed(() => result.value?.bill_groups ?? []);
     const incomes = computed(() => result.value?.incomes ?? []);

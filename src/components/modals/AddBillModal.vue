@@ -130,7 +130,6 @@ export default {
       this.billGroups.map((item, index) => {
         formattedBillGroups[item.id] = item.group_name;
       });
-      console.log("FORMATTED: ", formattedBillGroups);
       return formattedBillGroups;
     },
   },

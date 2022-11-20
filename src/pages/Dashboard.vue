@@ -12,30 +12,8 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import MonthlyOverview from "../components/dashboard/MonthlyOverview/MonthlyOverview.vue";
-import SavingsGoal from "../components/dashboard/SavingsGoal/SavingsGoal.vue";
-import PaycheckTimeline from "../components/dashboard/PaycheckTimeline.vue";
-import WeeklyFocus from "../components/dashboard/WeeklyFocus.vue";
-import Accounts from "../components/dashboard/Accounts.vue";
-import Bills from "../components/dashboard/Bills/Bills.vue";
-import Debt from "../components/dashboard/Debt/Debt.vue";
-import Credit from "../components/dashboard/Credit/Credit.vue";
-import Income from "../components/dashboard/Income/Income.vue";
-
-export default {
-  components: {
-    MonthlyOverview,
-    SavingsGoal,
-    PaycheckTimeline,
-    Credit,
-    WeeklyFocus,
-    Accounts,
-    Bills,
-    Debt,
-    Income,
-  },
-};
 </script>
 
 <style lang="scss">

@@ -3,6 +3,11 @@
     <div class="logo">
       <h1>Tauro Finance</h1>
     </div>
+    <div>
+      <button class="button block" @click="signOut" :disabled="loading">
+        Sign Out
+      </button>
+    </div>
     <div class="profile-group">
       <div class="portrait-group">
         <div class="outer-ring"></div>
@@ -16,13 +21,45 @@
   </div>
 </template>
 
-<script>
-export default {
-  components: {},
-  data() {
-    return {};
-  },
-};
+<script setup>
+import { supabase } from "../../supabase";
+import { onMounted, ref, toRefs } from "vue";
+
+const props = defineProps(["session"]);
+const { session } = toRefs(props);
+
+const loading = ref(true);
+const username = ref("");
+const website = ref("");
+const avatar_url = ref("");
+
+onMounted(() => {
+  getProfile();
+});
+
+async function getProfile() {
+  try {
+    loading.value = true;
+    const { user } = session.value;
+    if (error && status !== 406) throw error;
+  } catch (error) {
+    // alert(error.message);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function signOut() {
+  try {
+    loading.value = true;
+    let { error } = await supabase.auth.signOut();
+    if (error) throw error;
+  } catch (error) {
+    // alert(error.message);
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <style lang="scss">
