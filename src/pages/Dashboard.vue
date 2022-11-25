@@ -2,10 +2,12 @@
   <div class="dashboard-wrapper p-2">
     <div class="grid-wrapper">
       <monthly-overview class="monthly-overview" />
-      <!-- <savings-goal class="savingsGoals" />
+      <div class="savings_and_debt">
+        <savings-goal class="savingsGoals" />
+        <debt class="debt" />
+      </div>
       <bills class="bills" />
-      <credit class="credit"></credit>
-      <debt class="debt" />
+      <!-- <credit class="credit"></credit>
       <income class="income" />
       <div class="netIncome"></div> -->
     </div>
@@ -14,6 +16,8 @@
 
 <script setup>
 import MonthlyOverview from "../components/dashboard/MonthlyOverview/MonthlyOverview.vue";
+import SavingsGoal from "../components/dashboard/SavingsGoal/SavingsGoal.vue";
+import Debt from "../components/dashboard/Debt/Debt.vue";
 </script>
 
 <style lang="scss">
@@ -35,18 +39,19 @@ import MonthlyOverview from "../components/dashboard/MonthlyOverview/MonthlyOver
     & > * {
       position: relative;
       border-radius: 12px;
-      border: solid 1px rgba(0, 0, 0, 0.25);
+      border: solid 1px #a2d729;
       padding: 12px;
+      background-color: #473f4b;
     }
     .monthly-overview {
-      grid-row: span 6;
+      grid-row: span 12;
       grid-column: span 6;
     }
-    .savingsGoals {
-      // grid-area: savingsGoals;
-      // flex-grow: 1;
-      grid-row: 1/2;
-      grid-column: 4/13;
+    .savings_and_debt {
+      grid-row: span 12;
+      grid-column: span 3;
+      border: none;
+      background-color: transparent;
     }
     .bills {
       // grid-area: bills;
@@ -59,12 +64,6 @@ import MonthlyOverview from "../components/dashboard/MonthlyOverview/MonthlyOver
       // flex-grow: 1;
       grid-row: span 1;
       grid-column: span 1;
-    }
-    .debt {
-      // grid-area: debt;
-      // flex-grow: 1;
-      grid-row: span 1;
-      grid-column: span 2;
     }
     .income {
       // grid-area: income;

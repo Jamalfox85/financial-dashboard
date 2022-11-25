@@ -1,11 +1,15 @@
 <template lang="">
-  <div>
-    <div class="block-wrapper" @click="showGoalDetailsModal">
+  <div :style="{ width: '100%' }">
+    <div class="block-wrapper">
       <div class="block-header">
-        <h1 class="header-text">{{ goal.savings_name }}</h1>
+        <h1 class="header-text">{{ goal.name }}</h1>
+        <font-awesome-icon
+          class="ellipses-icon"
+          icon="fa-solid fa-ellipsis"
+          @click="showGoalDetailsModal"
+        />
       </div>
       <div class="block-main">
-        <h1 class="current-text">$ {{ goal.current_amount }}</h1>
         <p class="goal-text">of $ {{ goal.goal_amount }}</p>
         <div class="progress-bar">
           <div
@@ -13,7 +17,9 @@
             :style="{
               width: (goal.current_amount / goal.goal_amount) * 100 + '%',
             }"
-          ></div>
+          >
+            <p class="current-text">$ {{ goal.current_amount }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -35,6 +41,8 @@ export default {
   data() {
     return {
       isShowingGoalDetailsModal: false,
+      currentAmount: 60,
+      targetAmount: 100,
     };
   },
   methods: {
@@ -56,20 +64,27 @@ export default {
   --dark-accent: #504b43;
 }
 .block-wrapper {
-  height: 140px;
-  width: 170px;
-  padding: 1em;
+  width: 100%;
+  padding: 8px;
   border-radius: 12px;
-  background-color: var(--dark-green);
+  border: solid 1px #a2d729;
   box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.35);
   transition: 0.15s ease-in;
+  // background: linear-gradient(transparent 50%, #a2d729 50%);
   .block-header {
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 1em;
     .header-text {
-      font-size: 12px;
+      font-size: 18px;
       font-weight: bold;
       margin: 0;
       color: var(--white);
+      letter-spacing: 4px;
+    }
+    .ellipses-icon {
+      color: white;
+      font-size: 1.5em;
     }
   }
   .block-main {
@@ -77,47 +92,35 @@ export default {
     margin-top: 0.5em;
     display: flex;
     flex-direction: column;
-    .current-text {
-      align-self: flex-start;
-      font-size: 32px;
-      color: var(--white);
-      text-shadow: 2px 4px 4px rgba(0, 0, 0, 0.25);
-      margin-left: 8px;
-    }
+    text-align: center;
     .goal-text {
-      align-self: flex-end;
-      color: var(--white);
-      opacity: 50%;
+      color: #fff;
       margin: 0 8px 4px 0;
+      align-self: flex-end;
     }
     .progress-bar {
-      height: 8px;
+      height: 1.5em;
       width: 100%;
-      background-color: var(--white);
       border-radius: 16px;
+      border: solid 2px #a2d729;
       .progress-bar-progress {
         height: 100%;
-        background-color: var(--light-green);
+        background-color: #a2d729;
         border-radius: 16px;
         transition: 0.15s ease-in;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #504b43;
+        .current-text {
+          font-size: 14px;
+          margin-left: 8px;
+        }
       }
     }
     .progress-text {
       margin-top: 1em;
       font-size: 14px;
-    }
-  }
-
-  &:hover {
-    background-color: var(--light-green);
-    transform: scale(1.15);
-    cursor: pointer;
-    .block-main {
-      .progress-bar {
-        .progress-bar-progress {
-          background-color: var(--dark-green);
-        }
-      }
     }
   }
 }

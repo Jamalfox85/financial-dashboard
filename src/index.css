@@ -19,6 +19,8 @@
   font-size: 16px;
   font-family: "Fredoka One", cursive;
   overflow: hidden;
+  background-color: #342e37;
+  padding: 1em;
 }
 .app::before {
   /* Why before element? - To separate image and container opacities */
@@ -30,7 +32,8 @@
   z-index: -999;
 }
 .sidebar {
-  background-color: #a2d729;
+  background-color: #473f4b;
+  border: solid 2px #a2d729;
 }
 
 .main {

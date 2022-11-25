@@ -1,17 +1,19 @@
 <template>
-  <div>
-    <div class="savingsGoal_wrapper">
-      <div class="header">
-        <h1>Savings Goals</h1>
-        <add-bttn @click="showModal()" />
-      </div>
-      <div class="savings-goals">
-        <savings-goal-block
-          class="savings-block"
-          v-for="goal in goals"
-          :goal="goal"
-        />
-      </div>
+  <div class="savingsGoal_wrapper">
+    <div class="header">
+      <h1 class="section-header">SAVINGS</h1>
+      <font-awesome-icon
+        class="add-savings-icon"
+        icon="fa-solid fa-square-plus"
+        @click="showModal()"
+      />
+    </div>
+    <div class="savings-goals">
+      <savings-goal-block
+        class="savings-block"
+        v-for="goal in goals"
+        :goal="goal"
+      />
     </div>
     <add-savings-goal-modal :showModal="displayModal" @close="hideModal" />
   </div>
@@ -19,11 +21,24 @@
 
 <script>
 import SavingsDataService from "../../../services/SavingsDataService";
-
 import AddBttn from "../General/AddBttn.vue";
 import SavingsGoalBlock from "./SavingsGoalBlock.vue";
-
 import AddSavingsGoalModal from "../../modals/AddSavingsGoalModal.vue";
+import { sessionDetails } from "../../../userData";
+import { computed, watchEffect, reactive } from "vue";
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@vue/apollo-composable";
+
+const GET_SAVINGS_GOALS = gql`
+  query ($userId: uuid!) {
+    savings(where: { userid: { _eq: $userId } }) {
+      id
+      current_amount
+      goal_amount
+      name
+    }
+  }
+`;
 
 export default {
   components: {
@@ -35,6 +50,7 @@ export default {
     return {
       goals: [],
       displayModal: false,
+      session: sessionDetails,
     };
   },
   methods: {
@@ -46,17 +62,13 @@ export default {
     },
   },
   mounted() {
-    SavingsDataService.getAll().then((res) => {
-      let rawGoalsArray = res.data;
-      let filteredArray = rawGoalsArray.sort((a, b) => {
-        if (a.savings_name < b.savings_name) {
-          return -1;
-        } else if (a.savings_name > b.savings_name) {
-          return 1;
-        }
-        return 0;
-      });
-      this.goals = filteredArray;
+    const variables = reactive({
+      userId: this.session.user.id,
+    });
+    const { result } = useQuery(GET_SAVINGS_GOALS, variables);
+    const goals = computed(() => result.value?.savings ?? []);
+    watchEffect(() => {
+      this.goals = goals;
     });
   },
 };
@@ -76,36 +88,26 @@ export default {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1em;
-    width: 250px;
-    h1 {
+    width: 100%;
+
+    .section-header {
       position: relative;
       z-index: 2;
       font-size: 24px;
       font-weight: bold;
       color: var(--white);
-      &:after {
-        content: "Savings Goals";
-        position: absolute;
-        top: 2px;
-        right: 2px;
-        height: 100%;
-        width: 100%;
-        z-index: -1;
-        -webkit-text-stroke: 1px var(--dark-green);
-        color: transparent;
-      }
+      letter-spacing: 8px;
+    }
+    .add-savings-icon {
+      color: #a2d729;
+      font-size: 2em;
     }
   }
   .savings-goals {
     height: 200px;
     width: 100%;
     display: flex;
-    align-items: center;
     overflow: auto;
-    padding: 0 1em 12px;
-    .savings-block {
-      margin-right: 1em;
-    }
     &::-webkit-scrollbar {
       height: 12px;
       width: 100%;

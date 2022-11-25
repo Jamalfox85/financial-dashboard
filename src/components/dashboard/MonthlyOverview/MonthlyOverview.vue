@@ -283,6 +283,7 @@ export default {
 .monthly-overview-wrapper {
   box-shadow: 2px 2px 8px #fafffd;
   min-height: 80vh;
+  background-color: #fff;
   .section-header {
     color: #342e37;
     margin-bottom: 2em;

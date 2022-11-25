@@ -4,6 +4,7 @@ import { supabase } from "../supabase";
 
 const loading = ref(false);
 const email = ref("");
+const password = ref("");
 
 /* logInType 0 = Sign Up, LogInType = 1 = Log In */
 let logInType = ref(1);
@@ -13,11 +14,12 @@ const switchLogInType = () => {
 };
 
 const handleLogin = async () => {
+  console.log("LOG IN");
   try {
     loading.value = true;
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: "testemail@email.com",
-      password: "test123",
+      email: email.value,
+      password: password.value,
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -29,13 +31,12 @@ const handleLogin = async () => {
 };
 
 const handleSignup = async () => {
+  console.log("SIGN UP");
   try {
     // Use the Supabase provided method to handle the signup
     const { error } = await supabase.auth.signUp({
-      // email: email.value,
-      // password: password.value,
-      email: "testemail@email.com",
-      password: "test123",
+      email: email.value,
+      password: password.value,
     });
     if (error) throw error;
   } catch (error) {
@@ -88,16 +89,26 @@ const handleSignup = async () => {
       </div>
       <form class="form-content" @submit.prevent="handleSignup">
         <label class="form-label">Email</label>
-        <input class="form-input" type="text" />
+        <input
+          class="form-input"
+          type="email"
+          placeholder="Your email"
+          v-model="email"
+        />
         <label class="form-label">Password</label>
-        <input class="form-input" type="text" />
+        <input
+          class="form-input"
+          type="text"
+          placeholder="password123"
+          v-model="password"
+        />
         <button class="auth-bttn" type="submit">Submit</button>
       </form>
-      <div class="alternative-login-options">
+      <!-- <div class="alternative-login-options">
         <img class="alternative-login-img" src="../assets/icons/github.png" />
         <img class="alternative-login-img" src="../assets/icons/apple.png" />
         <img class="alternative-login-img" src="../assets/icons/google.png" />
-      </div>
+      </div> -->
       <img
         class="auth-login-image"
         src="../assets/images/undraw_credit_card_re_blml.png"
@@ -117,16 +128,26 @@ const handleSignup = async () => {
       </div>
       <form class="form-content" @submit.prevent="handleLogin">
         <label class="form-label">Email</label>
-        <input class="form-input" type="text" />
+        <input
+          class="form-input"
+          type="email"
+          placeholder="Your email"
+          v-model="email"
+        />
         <label class="form-label">Password</label>
-        <input class="form-input" type="text" />
+        <input
+          class="form-input"
+          type="text"
+          placeholder="password123"
+          v-model="password"
+        />
         <button class="auth-bttn" type="submit">Submit</button>
       </form>
-      <div class="alternative-login-options">
+      <!-- <div class="alternative-login-options">
         <img class="alternative-login-img" src="../assets/icons/github.png" />
         <img class="alternative-login-img" src="../assets/icons/apple.png" />
         <img class="alternative-login-img" src="../assets/icons/google.png" />
-      </div>
+      </div> -->
       <img
         class="auth-login-image"
         src="../assets/images/undraw_credit_card_re_blml.png"
