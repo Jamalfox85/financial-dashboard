@@ -52,16 +52,6 @@
             help="What is your credit limit / max amount borrowed?"
             v-model="debtLimit"
           />
-          <FormKit
-            type="select"
-            name="debtCategory"
-            label="Choose A Category"
-            placeholder="Credit Cards"
-            validation="required"
-            help="Which best describes this type of debt?"
-            :options="formatDebtCategories()"
-            v-model="debtCategory"
-          />
         </FormKit>
       </div>
     </vue-final-modal>
@@ -70,6 +60,9 @@
 <script>
 import DebtDataService from "../../services/DebtDataService";
 import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
+import { useMutation } from "@vue/apollo-composable";
+import { sessionDetails } from "../../userData";
+import gql from "graphql-tag";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
@@ -80,42 +73,47 @@ export default {
       debtAmount: null,
       debtLimit: null,
       debtCategory: null,
+      session: sessionDetails,
+    };
+  },
+  setup() {
+    const { mutate: addDebtRecord } = useMutation(gql`
+      mutation addDebtRecord(
+        $name: String!
+        $current_debt: bigint!
+        $debt_limit: bigint!
+        $userid: uuid!
+      ) {
+        insert_debts(
+          objects: {
+            name: $name
+            current_debt: $current_debt
+            debt_limit: $debt_limit
+            userid: $userid
+          }
+        ) {
+          returning {
+            id
+          }
+        }
+      }
+    `);
+    return {
+      addDebtRecord,
     };
   },
   methods: {
-    formatDebtCategories() {
-      let formattedList = [];
-      this.debtCategories.map((item) => {
-        if (item === "") {
-          console.log("PING");
-          return;
-        } else formattedList.push(`${item}`);
-      });
-      return formattedList;
-    },
     submitDebt() {
-      let data = {
-        debt_name: this.debtName,
-        debt_amount: this.debtAmount,
+      this.addDebtRecord({
+        name: this.debtName,
+        current_debt: this.debtAmount,
         debt_limit: this.debtLimit,
-        debt_category: this.debtCategory,
-        UserId: 1,
-      };
-      DebtDataService.create(data);
+        userid: this.session.user.id,
+      });
       this.closeModal();
     },
     closeModal() {
       this.$emit("closeModal", true);
-    },
-  },
-  watch: {
-    showModal: {
-      handler(newVal, oldVal) {
-        this.debtName = null;
-        this.debtAmount = null;
-        this.debtLimit = null;
-        this.debtCategory = null;
-      },
     },
   },
 };

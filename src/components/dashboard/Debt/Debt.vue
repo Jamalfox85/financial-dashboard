@@ -9,10 +9,9 @@
       />
     </div>
     <div class="debts">
-      <debt-block v-for="debt in debts" :debt="debt" />
+      <debt-block class="debt-block" v-for="debt in debts" :debt="debt" />
     </div>
     <add-debt-modal
-      :debtCategories="categories"
       :showModal="displayAddDebtModal"
       @closeModal="hideAddDebtModal"
     />
@@ -46,7 +45,6 @@ export default {
   },
   data() {
     return {
-      categories: [],
       debts: [],
       displayAddDebtModal: false,
       session: sessionDetails,
@@ -105,51 +103,9 @@ export default {
       font-size: 2em;
     }
   }
-  .main {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow-x: auto;
-    border-radius: 12px;
-    box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.25);
-    .debt-category {
-      margin-right: 2em;
-      padding: 1em;
-      min-width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      .category-header {
-        font-size: 16px;
-        color: var(--white);
-        margin-bottom: 1em;
-      }
-      .debt-block-wrapper {
-        display: flex;
-        flex-direction: column;
-        height: 120px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        padding-right: 1em;
-        & > * {
-          margin-bottom: 12px;
-        }
-        &::-webkit-scrollbar {
-          width: 4px;
-          height: 40px;
-        }
-        &::-webkit-scrollbar-thumb {
-          height: 10px;
-          border-radius: 12px;
-          background-color: var(--white);
-        }
-        &::-webkit-scrollbar-track {
-          height: 20px;
-          border-radius: 12px;
-          background-color: var(--dark-accent);
-        }
-      }
-    }
+  .debts {
+    height: 500px;
+    overflow: auto;
     &::-webkit-scrollbar {
       height: 12px;
       width: 100%;
@@ -163,6 +119,9 @@ export default {
       height: 20px;
       border-radius: 12px;
       background-color: var(--dark-accent);
+    }
+    .debt-block {
+      margin-bottom: 1em;
     }
   }
 }

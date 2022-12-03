@@ -23,7 +23,7 @@
 import SavingsDataService from "../../../services/SavingsDataService";
 import AddBttn from "../General/AddBttn.vue";
 import SavingsGoalBlock from "./SavingsGoalBlock.vue";
-import AddSavingsGoalModal from "../../modals/AddSavingsGoalModal.vue";
+import AddSavingsGoalModal from "../../modals/SavingsDetailsModal.vue";
 import { sessionDetails } from "../../../userData";
 import { computed, watchEffect, reactive } from "vue";
 import gql from "graphql-tag";
@@ -68,6 +68,7 @@ export default {
     const { result } = useQuery(GET_SAVINGS_GOALS, variables);
     const goals = computed(() => result.value?.savings ?? []);
     watchEffect(() => {
+      console.log("GOALS");
       this.goals = goals;
     });
   },
@@ -104,9 +105,10 @@ export default {
     }
   }
   .savings-goals {
-    height: 200px;
+    height: 500px;
     width: 100%;
     display: flex;
+    flex-direction: column;
     overflow: auto;
     &::-webkit-scrollbar {
       height: 12px;
@@ -121,6 +123,9 @@ export default {
       height: 20px;
       border-radius: 12px;
       background-color: var(--dark-accent);
+    }
+    .savings-block {
+      margin-bottom: 1em;
     }
   }
 }

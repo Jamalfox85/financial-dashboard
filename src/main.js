@@ -25,6 +25,9 @@ import Particles from "vue3-particles";
 /* Apollo */
 import gql from "graphql-tag";
 
+/* Apex Chart */
+import VueApexCharts from "vue3-apexcharts";
+
 import { DefaultApolloClient } from "@vue/apollo-composable";
 import {
   ApolloClient,
@@ -58,5 +61,6 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(plugin, defaultConfig);
 app.use(router);
 app.use(Particles);
+app.use(VueApexCharts);
 
 app.mount("#app");

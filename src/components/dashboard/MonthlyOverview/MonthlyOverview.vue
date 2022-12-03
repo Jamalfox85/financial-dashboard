@@ -1,9 +1,9 @@
 <template lang="">
   <div class="monthly-overview-wrapper">
-    <div class="section-header flex justify-between items-center">
-      <h2 class="text-2xl">Expenses</h2>
+    <div class="header flex justify-between items-center mb-5">
+      <h1 class="section-header">EXPENSES</h1>
       <font-awesome-icon
-        class="text-2xl"
+        class="add-debt-icon"
         icon="fa-solid fa-square-plus"
         @click="showAddBillGroupModal()"
       />
@@ -11,7 +11,8 @@
     <div class="section-main relative">
       <div class="total-income">
         <div class="income-line"></div>
-        <p class="absolute">{{ formatAmount(total) }}</p>
+        <p class="">{{ formatAmount(total) }}</p>
+        <div class="income-line"></div>
       </div>
       <div v-for="(group, index) in combinedBillGroupData">
         <div class="bill-group relative rounded-lg p-3 mb-8">
@@ -78,9 +79,10 @@
         </div>
         <div class="subtotal-income">
           <div class="income-line"></div>
-          <p class="absolute">
+          <p class="">
             {{ formatAmount(getRemainingBalance(index)) }}
           </p>
+          <div class="income-line"></div>
         </div>
       </div>
     </div>
@@ -281,19 +283,28 @@ export default {
 </script>
 <style lang="scss" scoped>
 .monthly-overview-wrapper {
-  box-shadow: 2px 2px 8px #fafffd;
   min-height: 80vh;
-  background-color: #fff;
-  .section-header {
-    color: #342e37;
-    margin-bottom: 2em;
-    text-align: left;
+  .header {
+    .section-header {
+      position: relative;
+      z-index: 2;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--white);
+      letter-spacing: 8px;
+    }
+    .add-debt-icon {
+      color: #fff;
+      font-size: 2em;
+    }
   }
   .section-main {
     height: 100%;
     display: flex;
     flex-direction: column;
     position: relative;
+    color: var(--white);
+
     .total-income,
     .subtotal-income {
       display: flex;
@@ -304,16 +315,15 @@ export default {
       .income-line {
         border: solid 1px #a2d729;
         height: 2px;
-        width: 100%;
+        width: 45%;
       }
       p {
-        background-color: #fafffd;
         padding: 0 1.5em;
         color: #a2d729;
       }
     }
     .bill-group {
-      border: solid 1px #3c91e6;
+      border: solid 1px #72971d;
       min-height: 150px;
       width: 100%;
       .bill-group-main {
@@ -324,7 +334,7 @@ export default {
           thead {
             padding: 0.25em;
             tr {
-              background-color: #3c91e64b;
+              background-color: #a2d7294b;
             }
           }
           th,
@@ -332,7 +342,7 @@ export default {
             padding: 8px;
           }
           tr {
-            border-bottom: solid 1px #3c91e6;
+            border-bottom: solid 1px #a2d729;
           }
         }
         .bill-status-icon {
@@ -343,7 +353,7 @@ export default {
         }
       }
       .bill-group-subtotal {
-        background-color: #3c91e6;
+        background-color: #a2d729;
         display: inline-block;
         bottom: -2px;
         right: -2px;

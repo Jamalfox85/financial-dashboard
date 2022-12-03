@@ -1,6 +1,6 @@
 <template lang="">
   <div>
-    <div class="debt_block_wrapper" @click="showDebtDetailsModal">
+    <div class="debt_block_wrapper" @click="showAddDebtModal">
       <div class="block-header">
         <h1 class="header-text">{{ debt.name }}</h1>
         <font-awesome-icon class="ellipses-icon" icon="fa-solid fa-ellipsis" />
@@ -21,22 +21,22 @@
     </div>
     <debt-details-modal
       :debt="debt"
-      :showModal="isShowingDebtDetailsModal"
-      @close="hideDebtDetailsModal"
+      :showModal="isShowingAddDebtModal"
+      @close="hideAddDebtModal"
     />
   </div>
 </template>
 <script>
 import DebtDataService from "../../../services/DebtDataService";
 
-import DebtDetailsModal from "../../modals/DebtDetailsModal.vue";
+import AddDebtModal from "../../modals/AddDebtModal.vue";
 
 export default {
   props: ["debt"],
-  components: { DebtDetailsModal },
+  components: { AddDebtModal },
   data() {
     return {
-      isShowingDebtDetailsModal: false,
+      isShowingAddDebtModal: false,
     };
   },
   computed: {
@@ -59,11 +59,11 @@ export default {
     },
   },
   methods: {
-    showDebtDetailsModal() {
-      this.isShowingDebtDetailsModal = true;
+    showAddDebtModal() {
+      this.isShowingAddDebtModal = true;
     },
-    hideDebtDetailsModal() {
-      this.isShowingDebtDetailsModal = false;
+    hideAddDebtModal() {
+      this.isShowingAddDebtModal = false;
     },
   },
 };

@@ -41,8 +41,6 @@ export default {
   data() {
     return {
       isShowingGoalDetailsModal: false,
-      currentAmount: 60,
-      targetAmount: 100,
     };
   },
   methods: {
@@ -103,6 +101,7 @@ export default {
       width: 100%;
       border-radius: 16px;
       border: solid 2px #a2d729;
+      overflow: hidden;
       .progress-bar-progress {
         height: 100%;
         background-color: #a2d729;

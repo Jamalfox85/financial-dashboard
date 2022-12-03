@@ -18,7 +18,7 @@
         type="form"
         id="goal-details-form"
         submit-label="Update Goal"
-        @submit="updateGoal"
+        @submit="submitSavingsGoal"
         :classes="{
           outer: 'mb-5',
           label: 'block mb-1 font-bold text-sm',
@@ -72,8 +72,10 @@
 <script>
 import { ref } from "vue";
 import SavingsDataService from "../../services/SavingsDataService";
-
+import gql from "graphql-tag";
 import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
+import { useMutation } from "@vue/apollo-composable";
+import { sessionDetails } from "../../userData";
 
 export default {
   props: ["showModal", "savingsGoal", "goal"],
@@ -83,36 +85,47 @@ export default {
       goalName: null,
       currentAmount: null,
       goalAmount: null,
+      session: sessionDetails,
+    };
+  },
+  setup() {
+    const { mutate: addSavingsRecord } = useMutation(gql`
+      mutation addSavingsRecord(
+        $name: String!
+        $current_amount: bigint!
+        $goal_amount: bigint!
+        $user_id: uuid!
+      ) {
+        insert_savings(
+          objects: {
+            name: $name
+            goal_amount: $goal_amount
+            current_amount: $current_amount
+            userid: $user_id
+          }
+        ) {
+          returning {
+            id
+          }
+        }
+      }
+    `);
+    return {
+      addSavingsRecord,
     };
   },
   methods: {
-    updateGoal() {
-      let data = {
-        savings_name: this.goalName,
+    submitSavingsGoal() {
+      this.addSavingsRecord({
+        name: this.goalName,
         goal_amount: this.goalAmount,
         current_amount: this.currentAmount,
-        Userid: 1,
-      };
-      SavingsDataService.update(this.goal.id, data);
-
-      this.closeModal();
-    },
-    deleteGoal() {
-      let goalToDelete = this.goal.id;
-      SavingsDataService.delete(goalToDelete);
+        user_id: this.session.user.id,
+      });
       this.closeModal();
     },
     closeModal() {
       this.$emit("close");
-    },
-  },
-  watch: {
-    showModal: {
-      handler(newVal, oldVal) {
-        this.goalName = this.goal.savings_name;
-        this.currentAmount = this.goal.current_amount;
-        this.goalAmount = this.goal.goal_amount;
-      },
     },
   },
 };
