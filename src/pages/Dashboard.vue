@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-wrapper p-2">
     <div class="grid-wrapper">
+      <img class="dashboard-img-card" src="../assets/images/cardimage.png" />
       <monthly-overview class="monthly-overview" />
       <div class="savings_and_debt">
         <savings-goal class="savingsGoals" />
@@ -8,7 +9,7 @@
       </div>
       <!-- <bills class="bills" /> -->
       <credit class="credit"></credit>
-      <img class="dashboard-img" src="../assets/images/investing.png" />
+      <img class="dashboard-img-bars" src="../assets/images/investing.png" />
       <!-- <income class="income" />
       <div class="netIncome"></div> -->
     </div>
@@ -45,12 +46,17 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
       padding: 12px;
       // background-color: #473f4b;
     }
+    .dashboard-img-card {
+      grid-row: span 2;
+      grid-column: span 6;
+      border: none;
+    }
     .monthly-overview {
-      grid-row: span 12;
+      grid-row: span 9;
       grid-column: span 6;
     }
     .savings_and_debt {
-      grid-row: span 12;
+      grid-row: span 9;
       grid-column: span 3;
       border: none;
       .savingsGoals {
@@ -63,7 +69,7 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
       grid-row: span 3;
       grid-column: span 3;
     }
-    .dashboard-img {
+    .dashboard-img-bars {
       grid-row: span 3;
       grid-column: span 3;
       border: none;
