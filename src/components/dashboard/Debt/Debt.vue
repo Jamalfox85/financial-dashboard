@@ -65,8 +65,6 @@ export default {
     const { result } = useQuery(GET_DEBTS, variables);
     const debts = computed(() => result.value?.debts ?? []);
     watchEffect(() => {
-      console.log("DEBTS LOADED");
-      console.log(debts);
       this.debts = debts;
     });
   },

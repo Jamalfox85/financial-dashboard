@@ -15,62 +15,77 @@
         />
       </div>
       <div class="form-wrapper">
-        <FormKit
-          type="form"
-          id="add-bill-form"
-          :classes="{
-            outer: 'form-wrapper',
-          }"
-          submit-label="Add Bill"
-          @submit="submitBill"
-        >
-          <p>Enter the details of your bill so we can help you keep track!</p>
-          <FormKit
-            type="text"
-            name="billName"
-            label="Bill Name"
-            placeholder="Electricity"
-            validation=""
-            help="Which bill are you listing?"
-            v-model="billName"
-          />
-          <FormKit
-            type="number"
-            name="billAmount"
-            label="Bill Amount"
-            placeholder="$125"
-            validation=""
-            help="How much do you pay?"
-            v-model="billAmount"
-          />
-          <FormKit
-            type="number"
-            name="dueDate"
-            label="Due Date"
-            placeholder="28"
-            validation=""
-            help="What day of the month is it due?"
-            v-model="dueDate"
-          />
-          <FormKit
-            type="select"
-            name="frequency"
-            label="Bill Frequency"
-            validation=""
-            help="How often do you pay this bill?"
-            v-model="frequency"
-            :options="{ 31: 'Monthly', 32: 'Weekly' }"
-          />
-          <FormKit
-            type="select"
-            name="billGroups"
-            label="Bill Groups"
-            validation=""
-            help="Which Bill Group Will This Bill Belong To?"
-            v-model="billGroup"
+        <form class="flex flex-col text-white">
+          <p class="mb-5">
+            Enter the details of your bill so we can help you keep track!
+          </p>
+          <label for="bill_name" class="flex flex-col mb-3"
+            >Bill Name
+            <input
+              id="bill_name"
+              name="bill_name"
+              type="text"
+              placeholder="Electricity"
+              v-model="billName"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <label for="bill_amount" class="flex flex-col mb-3"
+            >Bill Amount
+            <input
+              id="bill_amount"
+              name="bill_amount"
+              type="number"
+              placeholder="$125"
+              v-model="billAmount"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <label for="due_date" class="flex flex-col mb-3"
+            >Due Date
+            <input
+              id="due_date"
+              name="due_date"
+              type="number"
+              placeholder="28"
+              v-model="dueDate"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <label for="frequency" class="flex flex-col mb-3">
+            Frequency
+            <select
+              id="frequency"
+              name="frequency"
+              type="select"
+              v-model="frequency"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            >
+              <option v-for="option in frequencyOptions">
+                {{ option }}
+              </option>
+            </select>
+          </label>
+          <label
+            for="bill_groups"
             :options="formatBillGroups"
-          />
-        </FormKit>
+            class="flex flex-col mb-3"
+          >
+            Bill Group
+            <select
+              id="bill_groups"
+              name="bill_groups"
+              type="select"
+              v-model="billGroup"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            >
+              <option v-for="option in formatBillGroups">{{ option }}</option>
+            </select>
+          </label>
+          <button type="submit" @click="submitBill()" class="submit-bttn">
+            Add Bill
+          </button>
+        </form>
       </div>
     </vue-final-modal>
   </div>
@@ -92,6 +107,7 @@ export default {
       dueDate: null,
       frequency: 1,
       billGroup: null,
+      frequencyOptions: { 31: "Monthly", 32: "Weekly" },
     };
   },
   setup() {
@@ -169,23 +185,36 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid var(--white);
+  border: 1px solid #a2d729;
   border-radius: 12px;
-  background: var(--white);
+  background: #342e37;
   width: 600px;
 }
 .modal-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2em;
+  color: #fff;
   h1 {
     font-size: 24px;
+    letter-spacing: 4px;
   }
   .closeBttn {
     height: 2em;
+    cursor: pointer;
   }
 }
-.form-wrapper {
-  border: solid 2px red;
+
+.text-input {
+  color: #342e37;
+}
+.submit-bttn {
+  background-color: #a2d729;
+  padding: 8px 4px;
+  width: 140px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 1em;
 }
 </style>

@@ -15,49 +15,56 @@
         />
       </div>
       <div class="form-wrapper">
-        <FormKit
-          type="form"
-          id="add-debt-form"
-          :classes="{
-            outer: 'form-wrapper',
-          }"
-          submit-label="Submit"
-          @submit="submitDebt"
-        >
-          <p>Enter the details of your debt so we can help you keep track!</p>
-          <FormKit
-            type="text"
-            name="debtName"
-            label="Debt Name"
-            placeholder="Credit Card #1"
-            validation="required|text"
-            help="Which bill are you listing?"
-            v-model="debtName"
-          />
-          <FormKit
-            type="number"
-            name="debtAmount"
-            label="Debt Amount"
-            placeholder="$0"
-            validation="required|number"
-            help="How much do you owe?"
-            v-model="debtAmount"
-          />
-          <FormKit
-            type="number"
-            name="debtLimit"
-            label="Limit / Max"
-            placeholder="$2000"
-            validation="required|date"
-            help="What is your credit limit / max amount borrowed?"
-            v-model="debtLimit"
-          />
-        </FormKit>
+        <form class="flex flex-col text-white">
+          <p class="mb-5">
+            Enter the details of your debt so we can help you keep track!
+          </p>
+          <label for="debt_name" class="flex flex-col mb-3"
+            >Debt Name
+            <input
+              id="debt_name"
+              name="debt_name"
+              type="text"
+              placeholder="Credit Card"
+              v-model="debtName"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <label for="debt_amount" class="flex flex-col mb-3"
+            >Debt Amount
+            <input
+              id="debt_amount"
+              name="debt_amount"
+              type="number"
+              placeholder="$2000"
+              v-model="debtAmount"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <label for="debt_limit" class="flex flex-col mb-3"
+            >Debt Limit
+            <input
+              id="debt_limit"
+              name="debt_limit"
+              type="number"
+              placeholder="$4000"
+              v-model="debtLimit"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <button
+            type="submit"
+            @click="submitSavingsGoal()"
+            class="submit-bttn"
+          >
+            Add Bill
+          </button>
+        </form>
       </div>
     </vue-final-modal>
   </div>
 </template>
-<script>
+<script lang="js">
 import DebtDataService from "../../services/DebtDataService";
 import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
 import { useMutation } from "@vue/apollo-composable";
@@ -135,23 +142,36 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid var(--white);
+  border: 1px solid #a2d729;
   border-radius: 12px;
-  background: var(--white);
+  background: #342e37;
   width: 600px;
 }
 .modal-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2em;
+  color: #fff;
   h1 {
     font-size: 24px;
+    letter-spacing: 4px;
   }
   .closeBttn {
     height: 2em;
+    cursor: pointer;
   }
 }
-.form-wrapper {
-  border: solid 2px red;
+
+.text-input {
+  color: #342e37;
+}
+.submit-bttn {
+  background-color: #a2d729;
+  padding: 8px 4px;
+  width: 140px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 1em;
 }
 </style>

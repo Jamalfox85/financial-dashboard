@@ -15,26 +15,23 @@
         />
       </div>
       <div class="form-wrapper">
-        <FormKit
-          type="form"
-          id="add-bill-form"
-          :classes="{
-            outer: 'form-wrapper',
-          }"
-          submit-label="Add Bill Group"
-          @submit="submitBillGroup"
-        >
-          <p>What is the name of this bill group?</p>
-          <FormKit
-            type="text"
-            name="billGroupName"
-            label="Bill Group Name"
-            placeholder="15th - 31st"
-            validation=""
-            help="What is the name of this bill group"
-            v-model="billGroupName"
-          />
-        </FormKit>
+        <form class="flex flex-col text-white">
+          <p class="mb-5">What is the name of this bill group?</p>
+          <label for="bill_group_name" class="flex flex-col mb-3"
+            >Bill Group Name
+            <input
+              id="bill_group_name"
+              name="bill_group_name"
+              type="text"
+              placeholder="Utilities"
+              v-model="billGroupName"
+              class="p-2 mb-3 rounded-md text-input w-40"
+            />
+          </label>
+          <button type="submit" @click="submitBill()" class="submit-bttn">
+            Add Bill
+          </button>
+        </form>
       </div>
     </vue-final-modal>
   </div>
@@ -108,20 +105,36 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid var(--white);
+  border: 1px solid #a2d729;
   border-radius: 12px;
-  background: var(--white);
+  background: #342e37;
   width: 600px;
 }
 .modal-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2em;
+  color: #fff;
   h1 {
     font-size: 24px;
+    letter-spacing: 4px;
   }
   .closeBttn {
     height: 2em;
+    cursor: pointer;
   }
+}
+
+.text-input {
+  color: #342e37;
+}
+.submit-bttn {
+  background-color: #a2d729;
+  padding: 8px 4px;
+  width: 140px;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  margin-bottom: 1em;
 }
 </style>

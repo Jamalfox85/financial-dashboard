@@ -10,14 +10,37 @@
         :options="chartOptions"
         :series="series"
       ></apexchart>
+      <button @click="showModal" class="update-score-bttn">Update Score</button>
     </div>
+    <update-credit-modal
+      :showModal="displayModal"
+      :currentScore="series"
+      @close="hideModal"
+    />
   </div>
 </template>
 <script>
+import { sessionDetails } from "../../../userData";
+import { computed, watchEffect, reactive } from "vue";
+import gql from "graphql-tag";
+import { useQuery, useMutation } from "@vue/apollo-composable";
+import UpdateCreditModal from "../../modals/UpdateCreditModal.vue";
+
+const GET_CREDIT_SCORE = gql`
+  query ($userId: uuid!) {
+    credit(where: { user_id: { _eq: $userId } }) {
+      credit_score
+    }
+  }
+`;
+
 export default {
+  components: { UpdateCreditModal },
   data() {
     return {
-      // series: [67],
+      session: sessionDetails,
+      displayModal: false,
+      series: [0],
       chartOptions: {
         chart: {
           height: 350,
@@ -64,11 +87,24 @@ export default {
       },
     };
   },
-  setup() {
-    let score = 600;
-    return {
-      series: [score],
-    };
+  methods: {
+    showModal() {
+      this.displayModal = true;
+    },
+    hideModal() {
+      this.displayModal = false;
+    },
+  },
+  mounted() {
+    const variables = reactive({
+      userId: this.session.user.id,
+    });
+    const { result } = useQuery(GET_CREDIT_SCORE, variables);
+    const creditData = computed(() => result.value?.credit ?? []);
+    watchEffect(() => {
+      const creditScore = creditData.value[0]?.credit_score;
+      this.series = [creditScore];
+    });
   },
 };
 </script>
@@ -113,11 +149,11 @@ export default {
       font-size: 96px;
       text-shadow: 16px 32px 32px rgba(0, 0, 0, 0.4);
     }
-    .update-bttn {
+    .update-score-bttn {
       width: 125px;
       height: 35px;
       border-radius: 8px;
-      background-color: var(--dark-green);
+      background-color: #a2d729;
       text-shadow: 16px 32px 32px rgba(0, 0, 0, 0.4);
       transition: 0.15s ease-in;
       &:hover {

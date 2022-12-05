@@ -14,58 +14,45 @@
       />
     </div>
     <div class="form-wrapper">
-      <FormKit
-        type="form"
-        id="goal-details-form"
-        submit-label="Update Goal"
-        @submit="submitSavingsGoal"
-        :classes="{
-          outer: 'mb-5',
-          label: 'block mb-1 font-bold text-sm',
-          inner:
-            'max-w-md border border-gray-400 rounded-lg mb-1 overflow-hidden focus-within:border-blue-500',
-          input:
-            'w-full h-10 px-3 border-none text-base text-gray-700 placeholder-gray-400',
-          help: 'text-xs text-gray-500',
-        }"
-      >
-        <p>Update the details of your savings goal.</p>
-        <FormKit
-          outer-class="modal-name-input"
-          type="text"
-          name="goalName"
-          label="Goal Name"
-          placeholder="Vacation"
-          validation="required|text"
-          help="What are you saving for?"
-          v-model="goalName"
-        />
-        <FormKit
-          type="number"
-          name="goalAmount"
-          label="Goal Amount"
-          placeholder="$1,000"
-          validation="required|number"
-          help="How much do you want to save?"
-          v-model="goalAmount"
-        />
-        <FormKit
-          type="number"
-          name="currentAmount"
-          label="Current Amount"
-          placeholder="$0"
-          validation="required|number"
-          help="How much have you saved so far?"
-          v-model="currentAmount"
-        />
-        <Formkit
-          type="button"
-          label="Delete"
-          class="delete-bttn"
-          @click="deleteGoal"
-          >Delete</Formkit
-        >
-      </FormKit>
+      <form class="flex flex-col text-white">
+        <p class="mb-5">Enter savings goal details.</p>
+        <label for="goal_name" class="flex flex-col mb-3"
+          >Goal Name
+          <input
+            id="goal_name"
+            name="goal_name"
+            type="text"
+            placeholder="Vacation"
+            v-model="goalName"
+            class="p-2 mb-3 rounded-md text-input w-40"
+          />
+        </label>
+        <label for="goal_amount" class="flex flex-col mb-3"
+          >Goal Amount
+          <input
+            id="goal_amount"
+            name="goal_amount"
+            type="number"
+            placeholder="$1,000"
+            v-model="goalAmount"
+            class="p-2 mb-3 rounded-md text-input w-40"
+          />
+        </label>
+        <label for="current_amount" class="flex flex-col mb-3"
+          >Current Amount
+          <input
+            id="current_amount"
+            name="current_amount"
+            type="number"
+            placeholder="$6,000"
+            v-model="currentAmount"
+            class="p-2 mb-3 rounded-md text-input w-40"
+          />
+        </label>
+        <button type="submit" @click="submitSavingsGoal()" class="submit-bttn">
+          Add Bill
+        </button>
+      </form>
     </div>
   </vue-final-modal>
 </template>
@@ -147,40 +134,36 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  border: 1px solid var(--white);
+  border: 1px solid #a2d729;
   border-radius: 12px;
-  background: var(--white);
+  background: #342e37;
   width: 600px;
 }
 .modal-header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2em;
+  color: #fff;
   h1 {
     font-size: 24px;
+    letter-spacing: 4px;
   }
   .closeBttn {
     height: 2em;
+    cursor: pointer;
   }
 }
-.form-wrapper {
-  display: flex;
-  .formkit-inner {
-    border: solid 4px blue;
-  }
+
+.text-input {
+  color: #342e37;
 }
-.modal-name-input,
-.my-class .foo-bar {
-  border: solid 4px blue;
-}
-.delete-bttn {
+.submit-bttn {
+  background-color: #a2d729;
   padding: 8px 4px;
   width: 140px;
   border-radius: 4px;
-  text-align: center;
-  background-color: red;
   color: #fff;
-  margin-bottom: 1em;
   cursor: pointer;
+  margin-bottom: 1em;
 }
 </style>

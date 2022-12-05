@@ -23,21 +23,21 @@
         </div>
       </div>
     </div>
-    <goal-details-modal
+    <!-- <goal-details-modal
       :showModal="isShowingGoalDetailsModal"
       :goal="goal"
       @close="hideGoalDetailsModal"
-    />
+    /> -->
   </div>
 </template>
 <script>
 import SavingsDataService from "../../../services/SavingsDataService";
 
-import GoalDetailsModal from "../../modals/SavingsDetailsModal.vue";
+// import GoalDetailsModal from "../../modals/SavingsDetailsModal.vue";
 
 export default {
   props: ["goal"],
-  components: { GoalDetailsModal },
+  components: {},
   data() {
     return {
       isShowingGoalDetailsModal: false,

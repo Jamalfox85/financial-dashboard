@@ -19,11 +19,11 @@
         </div>
       </div>
     </div>
-    <debt-details-modal
+    <!-- <debt-details-modal
       :debt="debt"
       :showModal="isShowingAddDebtModal"
       @close="hideAddDebtModal"
-    />
+    /> -->
   </div>
 </template>
 <script>

@@ -8,6 +8,7 @@
       </div>
       <!-- <bills class="bills" /> -->
       <credit class="credit"></credit>
+      <img class="dashboard-img" src="../assets/images/investing.png" />
       <!-- <income class="income" />
       <div class="netIncome"></div> -->
     </div>
@@ -61,6 +62,11 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
       // flex-grow: 1;
       grid-row: span 3;
       grid-column: span 3;
+    }
+    .dashboard-img {
+      grid-row: span 3;
+      grid-column: span 3;
+      border: none;
     }
     .bills {
       // grid-area: credit;
