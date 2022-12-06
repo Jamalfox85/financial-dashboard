@@ -20,7 +20,7 @@
   font-family: "Fredoka One", cursive;
   overflow: hidden;
   background-color: #342e37;
-  padding: 1em;
+  color: #fff;
 }
 .app::before {
   /* Why before element? - To separate image and container opacities */
