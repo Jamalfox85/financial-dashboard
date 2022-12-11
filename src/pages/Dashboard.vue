@@ -3,10 +3,10 @@
     <div class="grid-wrapper">
       <!-- <img class="dashboard-img-card" src="../assets/images/cardimage.png" /> -->
       <!-- <monthly-overview class="monthly-overview" /> -->
-      <div class="savings_and_debt">
-        <savings-goal class="savingsGoals" />
-        <!-- <debt class="debt" /> -->
-      </div>
+      <savings-goal class="savingsGoals" />
+      <!-- <div class="savings_and_debt"> -->
+      <!-- <debt class="debt" /> -->
+      <!-- </div> -->
       <!-- <bills class="bills" /> -->
       <!-- <credit class="credit"></credit> -->
       <!-- <img class="dashboard-img-bars" src="../assets/images/investing.png" /> -->
@@ -33,7 +33,6 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
   margin-top: 1em;
   .grid-wrapper {
     height: 100%;
-    width: 90vw;
     display: grid;
     grid-template-rows: repeat(12, 1fr);
     grid-template-columns: repeat(12, 1fr);
@@ -44,7 +43,12 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
       border-radius: 12px;
       border: solid 1px #a2d729;
       padding: 12px;
-      // background-color: #473f4b;
+      background-color: #423c47bb;
+    }
+    .savingsGoals {
+      grid-row: span 1;
+      grid-column: span 12;
+      height: 240px;
     }
     .dashboard-img-card {
       grid-row: span 2;

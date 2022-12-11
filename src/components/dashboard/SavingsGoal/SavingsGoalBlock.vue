@@ -1,5 +1,5 @@
 <template lang="">
-  <div :style="{ width: '100%' }">
+  <div>
     <div class="block-wrapper">
       <div class="block-header">
         <h1 class="header-text">{{ goal.name }}</h1>
@@ -76,20 +76,15 @@ export default {
 };
 </script>
 <style lang="scss">
-:root {
-  --white: #eaeff2;
-  --black: #000;
-  --dark-green: #77ad78;
-  --light-green: #8fd694;
-  --dark-accent: #504b43;
-}
 .block-wrapper {
-  width: 100%;
+  width: 250px;
   padding: 8px;
+  margin-right: 1em;
   border-radius: 12px;
   border: solid 1px #a2d729;
   box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.35);
   transition: 0.15s ease-in;
+  color: #fff;
   .block-header {
     display: flex;
     justify-content: space-between;
@@ -99,11 +94,9 @@ export default {
       font-size: 18px;
       font-weight: bold;
       margin: 0;
-      color: var(--white);
       letter-spacing: 4px;
     }
     .ellipses-icon {
-      color: white;
       font-size: 1.5em;
       cursor: pointer;
       &:hover {
@@ -136,7 +129,6 @@ export default {
     flex-direction: column;
     text-align: center;
     .goal-text {
-      color: #fff;
       margin: 0 8px 4px 0;
       align-self: flex-end;
     }
@@ -167,9 +159,9 @@ export default {
       }
       .current-text {
         font-size: 14px;
-        color: #fff;
         position: absolute;
         width: 100%;
+        text-shadow: 1px 1px 2px rgb(58, 57, 57);
       }
     }
     .progress-text {

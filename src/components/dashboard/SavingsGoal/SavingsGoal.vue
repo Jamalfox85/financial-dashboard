@@ -75,13 +75,6 @@ export default {
 </script>
 
 <style lang="scss">
-:root {
-  --white: #eaeff2;
-  --black: #000;
-  --dark-green: #77ad78;
-  --light-green: #8fd694;
-  --dark-accent: #504b43;
-}
 .savingsGoal_wrapper {
   .header {
     display: flex;
@@ -109,11 +102,11 @@ export default {
     }
   }
   .savings-goals {
-    height: 500px;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    // overflow: auto;
+    justify-content: flex-start;
+    overflow: auto;
+    padding-bottom: 0.5em;
     &::-webkit-scrollbar {
       height: 12px;
       width: 100%;
@@ -121,12 +114,12 @@ export default {
     &::-webkit-scrollbar-thumb {
       height: 10px;
       border-radius: 12px;
-      background-color: var(--white);
+      background-color: #a2d729;
     }
     &::-webkit-scrollbar-track {
       height: 20px;
       border-radius: 12px;
-      background-color: var(--dark-accent);
+      background-color: #78971d58;
     }
     .savings-block {
       margin-bottom: 1em;
