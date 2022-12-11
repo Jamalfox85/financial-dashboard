@@ -3,11 +3,17 @@
     <div class="block-wrapper">
       <div class="block-header">
         <h1 class="header-text">{{ goal.name }}</h1>
-        <font-awesome-icon
-          class="ellipses-icon"
-          icon="fa-solid fa-ellipsis"
-          @click="showGoalDetailsModal"
-        />
+        <div tabindex="0" @focusout="dropdownActive = false">
+          <font-awesome-icon
+            class="ellipses-icon"
+            icon="fa-solid fa-ellipsis"
+            @click="toggleDropdownMenu"
+          />
+          <div class="details-dropdown-menu" v-if="dropdownActive">
+            <p class="dropdown-option" @click="editGoal()">Edit Goal</p>
+            <p class="dropdown-option" @click="deleteGoal()">Delete Goal</p>
+          </div>
+        </div>
       </div>
       <div class="block-main">
         <p class="goal-text">of $ {{ goal.goal_amount }}</p>
@@ -17,38 +23,54 @@
             :style="{
               width: (goal.current_amount / goal.goal_amount) * 100 + '%',
             }"
-          >
-            <p class="current-text">$ {{ goal.current_amount }}</p>
-          </div>
+          ></div>
+          <p class="current-text">$ {{ goal.current_amount }}</p>
         </div>
       </div>
     </div>
-    <!-- <goal-details-modal
-      :showModal="isShowingGoalDetailsModal"
+    <edit-savings-modal
+      :showModal="editModalActive"
       :goal="goal"
-      @close="hideGoalDetailsModal"
-    /> -->
+      @close="hideEditModal"
+    />
+    <delete-savings-modal
+      :showModal="deleteModalActive"
+      :goal="goal"
+      @close="hideDeleteModal"
+    />
   </div>
 </template>
 <script>
-import SavingsDataService from "../../../services/SavingsDataService";
-
-// import GoalDetailsModal from "../../modals/SavingsDetailsModal.vue";
+import EditSavingsModal from "../../modals/EditSavingsModal.vue";
+import DeleteSavingsModal from "../../modals/DeleteSavingsModal.vue";
 
 export default {
+  components: { EditSavingsModal, DeleteSavingsModal },
   props: ["goal"],
-  components: {},
   data() {
     return {
-      isShowingGoalDetailsModal: false,
+      dropdownActive: false,
+      editModalActive: false,
+      deleteModalActive: false,
     };
   },
   methods: {
-    showGoalDetailsModal() {
-      this.isShowingGoalDetailsModal = true;
+    toggleDropdownMenu() {
+      this.dropdownActive = !this.dropdownActive;
     },
-    hideGoalDetailsModal() {
-      this.isShowingGoalDetailsModal = false;
+    editGoal() {
+      this.dropdownActive = false;
+      this.editModalActive = true;
+    },
+    deleteGoal() {
+      this.dropdownActive = false;
+      this.deleteModalActive = true;
+    },
+    hideEditModal() {
+      this.editModalActive = false;
+    },
+    hideDeleteModal() {
+      this.deleteModalActive = false;
     },
   },
 };
@@ -68,11 +90,11 @@ export default {
   border: solid 1px #a2d729;
   box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.35);
   transition: 0.15s ease-in;
-  // background: linear-gradient(transparent 50%, #a2d729 50%);
   .block-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 1em;
+    position: relative;
     .header-text {
       font-size: 18px;
       font-weight: bold;
@@ -83,6 +105,28 @@ export default {
     .ellipses-icon {
       color: white;
       font-size: 1.5em;
+      cursor: pointer;
+      &:hover {
+        color: rgb(201, 201, 201);
+        transition: 0.1s ease-in-out;
+      }
+    }
+    .details-dropdown-menu {
+      position: absolute;
+      background-color: #79971d;
+      width: 100px;
+      border-radius: 8px;
+      font-size: 0.8em;
+      overflow: hidden;
+      z-index: 2;
+      .dropdown-option {
+        padding: 4px 8px;
+        cursor: pointer;
+        transition: 0.1s ease-in-out;
+        &:hover {
+          background-color: #a2d729;
+        }
+      }
     }
   }
   .block-main {
@@ -102,19 +146,30 @@ export default {
       border-radius: 16px;
       border: solid 2px #a2d729;
       overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
       .progress-bar-progress {
         height: 100%;
-        background-color: #a2d729;
+        background: rgb(162, 215, 41);
+        background: linear-gradient(
+          90deg,
+          rgba(162, 215, 41, 1) 0%,
+          rgba(70, 215, 32, 1) 70%
+        );
         border-radius: 16px;
         transition: 0.15s ease-in;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #504b43;
-        .current-text {
-          font-size: 14px;
-          margin-left: 8px;
-        }
+      }
+      .current-text {
+        font-size: 14px;
+        color: #fff;
+        position: absolute;
+        width: 100%;
       }
     }
     .progress-text {

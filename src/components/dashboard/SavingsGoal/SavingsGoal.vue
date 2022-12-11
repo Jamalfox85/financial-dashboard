@@ -101,6 +101,11 @@ export default {
     .add-savings-icon {
       color: #a2d729;
       font-size: 2em;
+      cursor: pointer;
+      transition: 0.1s ease-in-out;
+      &:hover {
+        color: #79971d;
+      }
     }
   }
   .savings-goals {
@@ -108,7 +113,7 @@ export default {
     width: 100%;
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    // overflow: auto;
     &::-webkit-scrollbar {
       height: 12px;
       width: 100%;

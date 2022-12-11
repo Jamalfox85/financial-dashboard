@@ -16,7 +16,7 @@
     <div class="form-wrapper">
       <form
         class="flex flex-col text-white"
-        @submit.prevent="submitSavingsGoal()"
+        @submit.prevent="updateSavingsGoal()"
       >
         <p class="mb-5">Enter savings goal details.</p>
         <label for="goal_name" class="flex flex-col mb-3"
@@ -52,16 +52,14 @@
             class="p-2 mb-3 rounded-md text-input w-40"
           />
         </label>
-        <button type="submit" class="submit-bttn">Add Goal</button>
+        <button type="submit" class="submit-bttn">Update Goal</button>
       </form>
     </div>
   </vue-final-modal>
 </template>
 <script>
-import { ref } from "vue";
-import SavingsDataService from "../../services/SavingsDataService";
 import gql from "graphql-tag";
-import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
+import { VueFinalModal, ModalsContainer } from "vue-final-modal";
 import { useMutation } from "@vue/apollo-composable";
 import { sessionDetails } from "../../userData";
 
@@ -70,26 +68,26 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      goalName: null,
-      currentAmount: null,
-      goalAmount: null,
+      goalName: this.goal.name,
+      currentAmount: this.goal.current_amount,
+      goalAmount: this.goal.goal_amount,
       session: sessionDetails,
     };
   },
   setup() {
-    const { mutate: addSavingsRecord } = useMutation(gql`
-      mutation addSavingsRecord(
+    const { mutate: updateSavingsRecord } = useMutation(gql`
+      mutation updateSavingsRecord(
         $name: String!
-        $current_amount: bigint!
         $goal_amount: bigint!
-        $user_id: uuid!
+        $current_amount: bigint!
+        $id: uuid!
       ) {
-        insert_savings(
-          objects: {
+        update_savings(
+          where: { id: { _eq: $id } }
+          _set: {
             name: $name
             goal_amount: $goal_amount
             current_amount: $current_amount
-            userid: $user_id
           }
         ) {
           returning {
@@ -99,17 +97,16 @@ export default {
       }
     `);
     return {
-      addSavingsRecord,
+      updateSavingsRecord,
     };
   },
   methods: {
-    submitSavingsGoal() {
-      console.log("USER: ", this.session.user.id);
-      this.addSavingsRecord({
+    updateSavingsGoal() {
+      this.updateSavingsRecord({
         name: this.goalName,
         goal_amount: this.goalAmount,
         current_amount: this.currentAmount,
-        user_id: this.session.user.id,
+        id: this.goal.id,
       });
       this.closeModal();
     },

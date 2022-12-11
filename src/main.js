@@ -28,6 +28,9 @@ import gql from "graphql-tag";
 /* Apex Chart */
 import VueApexCharts from "vue3-apexcharts";
 
+/* Vue Final Modal */
+import { vfmPlugin } from "vue-final-modal";
+
 import { DefaultApolloClient } from "@vue/apollo-composable";
 import {
   ApolloClient,
@@ -62,5 +65,6 @@ app.use(plugin, defaultConfig);
 app.use(router);
 app.use(Particles);
 app.use(VueApexCharts);
+app.use(vfmPlugin);
 
 app.mount("#app");

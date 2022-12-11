@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
   <div class="app">
-    <div v-if="session">
+    <div v-if="session" class="authenticated-layout">
       <SideBar :session="session" class="sidebar" />
       <RouterView class="main" />
     </div>

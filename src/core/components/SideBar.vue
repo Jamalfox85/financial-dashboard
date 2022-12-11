@@ -3,20 +3,53 @@
     <div class="logo">
       <h1>Tauro Finance</h1>
     </div>
-    <div>
-      <button class="button block" @click="signOut" :disabled="loading">
-        Sign Out
-      </button>
+    <div class="portrait-group">
+      <img src="../../assets/images/portrait.jpeg" />
+    </div>
+    <div class="nav-links">
+      <nav>
+        <h2 class="nav-link">
+          <font-awesome-icon
+            class="nav-link-icon"
+            icon="fa-solid fa-house"
+          />Dashboard
+        </h2>
+        <h2 class="nav-link">
+          <font-awesome-icon
+            class="nav-link-icon"
+            icon="fa-solid fa-wallet"
+          />Spending
+        </h2>
+        <h2 class="nav-link">
+          <font-awesome-icon
+            class="nav-link-icon"
+            icon="fa-brands fa-cc-discover"
+          />Credit Report
+        </h2>
+        <h2 class="nav-link">
+          <font-awesome-icon
+            class="nav-link-icon"
+            icon="fa-solid fa-calendar"
+          />Schedule
+        </h2>
+      </nav>
     </div>
     <div class="profile-group">
-      <div class="portrait-group">
-        <div class="outer-ring"></div>
-        <div class="inner-ring"></div>
-        <div class="portrait"></div>
-      </div>
-      <div class="icon-group">
-        <font-awesome-icon class="icon" icon="fa-solid fa-play" />
-      </div>
+      <button class="button block profile-option" :disabled="loading">
+        <font-awesome-icon class="nav-link-icon" icon="fa-solid fa-user" />Edit
+        Profile
+      </button>
+      <button
+        class="button block profile-option"
+        @click="signOut"
+        :disabled="loading"
+      >
+        <font-awesome-icon
+          class="nav-link-icon"
+          icon="fa-solid fa-arrow-right-from-bracket"
+        />
+        Sign Out
+      </button>
     </div>
   </div>
 </template>
@@ -72,127 +105,60 @@ async function signOut() {
 }
 .sidebar-wrapper {
   position: relative;
-  height: 100px;
-  width: 100%;
+  height: 100%;
+  width: 250px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2em;
+  flex-direction: column;
+  padding: 1em;
   border-radius: 12px;
   color: #edf2ef;
+  border: solid 2px #a2d729;
+  background: rgb(162, 215, 41);
+  background: linear-gradient(
+    180deg,
+    rgba(162, 215, 41, 1) 0%,
+    rgba(70, 215, 32, 1) 70%
+  );
   .logo {
-    position: relative;
+    font-size: 1.5em;
+    margin-bottom: 2em;
+  }
+  .portrait-group {
     display: flex;
+    justify-content: center;
     align-items: center;
-    h1 {
-      font-size: clamp(24px, 4vw, 36px);
-      margin-left: 4px;
-      position: relative;
-      z-index: 2;
+    margin-bottom: 2em;
+    img {
+      width: 75%;
+      border-radius: 50%;
+    }
+  }
+  .nav-links,
+  .profile-group {
+    .nav-link,
+    .profile-option {
+      font-size: 1.25em;
+      margin-bottom: 12px;
+      padding: 0.5em;
+      transition: 0.1s ease-in-out;
+      border-radius: 8px;
+      .nav-link-icon {
+        margin-right: 0.75em;
+      }
+      &:hover {
+        background-color: #79971d;
+        cursor: pointer;
+      }
     }
   }
   .profile-group {
     position: relative;
-    display: flex;
-    align-items: center;
-    .portrait-group {
-      position: relative;
-      height: 90px;
-      width: 90px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 1em;
-      .outer-ring {
-        position: absolute;
-        height: 100%;
-        width: 100%;
-        border: solid 1px #eee;
-        border-radius: 50%;
-        transition: 0.1s ease-in-out;
-      }
-      .inner-ring {
-        position: absolute;
-        height: 85%;
-        width: 85%;
-        border: solid #ddd;
-        border-radius: 50%;
-        transition: 0.1s ease-in-out;
-      }
-      .portrait {
-        position: absolute;
-        height: 65%;
-        width: 65%;
-        border-radius: 50%;
-        background-image: url("../../assets/images/portrait.jpeg");
-        background-size: cover;
-        transition: 0.3 ease-in-out;
-      }
+    margin-top: auto;
+    button {
+      background-color: #342e37;
+      width: 100%;
+      text-align: left;
     }
-    .icon-group {
-      position: relative;
-      height: 20px;
-      width: 20px;
-      transform: rotate(90deg);
-      .icon {
-        position: absolute;
-      }
-    }
-    /* Hover State */
-    &:hover {
-      cursor: pointer;
-      .outer-ring {
-        animation: outer-ring-animation 1s infinite;
-      }
-      .inner-ring {
-        animation: inner-ring-animation 1s infinite;
-      }
-      .icon-group .icon {
-        animation: arrow-animation 0.8s infinite;
-      }
-    }
-  }
-}
-
-@keyframes arrow-animation {
-  /* Why margin-left? - Element is being rotated 90deg */
-  0% {
-    margin-left: 0px;
-  }
-  50% {
-    margin-left: 5px;
-  }
-  100% {
-    margin-left: 0px;
-  }
-}
-
-@keyframes inner-ring-animation {
-  0% {
-    height: 85%;
-    width: 85%;
-  }
-  50% {
-    height: 100%;
-    width: 100%;
-  }
-  100% {
-    height: 85%;
-    width: 85%;
-  }
-}
-@keyframes outer-ring-animation {
-  0% {
-    height: 100%;
-    width: 100%;
-  }
-  50% {
-    height: 75%;
-    width: 75%;
-  }
-  100% {
-    height: 100%;
-    width: 100%;
   }
 }
 </style>

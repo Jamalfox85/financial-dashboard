@@ -1,15 +1,15 @@
 <template>
   <div class="dashboard-wrapper p-2">
     <div class="grid-wrapper">
-      <img class="dashboard-img-card" src="../assets/images/cardimage.png" />
-      <monthly-overview class="monthly-overview" />
+      <!-- <img class="dashboard-img-card" src="../assets/images/cardimage.png" /> -->
+      <!-- <monthly-overview class="monthly-overview" /> -->
       <div class="savings_and_debt">
         <savings-goal class="savingsGoals" />
-        <debt class="debt" />
+        <!-- <debt class="debt" /> -->
       </div>
       <!-- <bills class="bills" /> -->
-      <credit class="credit"></credit>
-      <img class="dashboard-img-bars" src="../assets/images/investing.png" />
+      <!-- <credit class="credit"></credit> -->
+      <!-- <img class="dashboard-img-bars" src="../assets/images/investing.png" /> -->
       <!-- <income class="income" />
       <div class="netIncome"></div> -->
     </div>
