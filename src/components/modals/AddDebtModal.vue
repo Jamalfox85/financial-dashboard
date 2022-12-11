@@ -15,7 +15,7 @@
         />
       </div>
       <div class="form-wrapper">
-        <form class="flex flex-col text-white">
+        <form class="flex flex-col text-white" @submit.prevent="submitDebt()">
           <p class="mb-5">
             Enter the details of your debt so we can help you keep track!
           </p>
@@ -25,7 +25,7 @@
               id="debt_name"
               name="debt_name"
               type="text"
-              placeholder="Credit Card"
+              placeholder="Credit Card #1"
               v-model="debtName"
               class="p-2 mb-3 rounded-md text-input w-40"
             />
@@ -52,13 +52,7 @@
               class="p-2 mb-3 rounded-md text-input w-40"
             />
           </label>
-          <button
-            type="submit"
-            @click="submitSavingsGoal()"
-            class="submit-bttn"
-          >
-            Add Bill
-          </button>
+          <button type="submit" class="submit-bttn">Add Bill</button>
         </form>
       </div>
     </vue-final-modal>

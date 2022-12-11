@@ -4,11 +4,11 @@
       <!-- <img class="dashboard-img-card" src="../assets/images/cardimage.png" /> -->
       <!-- <monthly-overview class="monthly-overview" /> -->
       <savings-goal class="savingsGoals" />
+      <credit class="credit"></credit>
+      <debt class="debt" />
       <!-- <div class="savings_and_debt"> -->
-      <!-- <debt class="debt" /> -->
       <!-- </div> -->
       <!-- <bills class="bills" /> -->
-      <!-- <credit class="credit"></credit> -->
       <!-- <img class="dashboard-img-bars" src="../assets/images/investing.png" /> -->
       <!-- <income class="income" />
       <div class="netIncome"></div> -->
@@ -34,7 +34,7 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
   .grid-wrapper {
     height: 100%;
     display: grid;
-    grid-template-rows: repeat(12, 1fr);
+    grid-template-rows: repeat(12, 250px);
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: 1em;
     grid-row-gap: 1em;
@@ -48,7 +48,15 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
     .savingsGoals {
       grid-row: span 1;
       grid-column: span 12;
-      height: 240px;
+      // height: 240px;
+    }
+    .credit {
+      grid-row: span 2;
+      grid-column: span 3;
+    }
+    .debt {
+      grid-row: span 2;
+      grid-column: span 3;
     }
     .dashboard-img-card {
       grid-row: span 2;
@@ -67,12 +75,7 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
         margin-bottom: 2em;
       }
     }
-    .credit {
-      // grid-area: bills;
-      // flex-grow: 1;
-      grid-row: span 3;
-      grid-column: span 3;
-    }
+
     .dashboard-img-bars {
       grid-row: span 3;
       grid-column: span 3;

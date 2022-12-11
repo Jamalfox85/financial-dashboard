@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="debt_wrapper">
     <div class="header">
       <h1 class="section-header">DEBT</h1>
@@ -30,6 +30,7 @@ import { useQuery, useMutation } from "@vue/apollo-composable";
 const GET_DEBTS = gql`
   query ($userId: uuid!) {
     debts(where: { userid: { _eq: $userId } }) {
+      id
       current_debt
       debt_limit
       name
@@ -82,6 +83,9 @@ export default {
   --red: #e3170a;
 }
 .debt_wrapper {
+  // overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: visible;
   .header {
     display: flex;
     align-items: center;
@@ -99,11 +103,17 @@ export default {
     .add-debt-icon {
       color: #fff;
       font-size: 2em;
+      cursor: pointer;
+      &:hover {
+        color: rgb(232, 231, 231);
+      }
     }
   }
   .debts {
-    height: 500px;
-    overflow: auto;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: visible;
+    padding-bottom: 2em;
     &::-webkit-scrollbar {
       height: 12px;
       width: 100%;

@@ -6,7 +6,7 @@
     :prevent-click="true"
   >
     <div class="modal-header">
-      <h1>Goal Details</h1>
+      <h1>Debt Details</h1>
       <font-awesome-icon
         class="closeBttn"
         @click="closeModal"
@@ -14,82 +14,77 @@
       />
     </div>
     <div class="form-wrapper">
-      <form
-        class="flex flex-col text-white"
-        @submit.prevent="submitSavingsGoal()"
-      >
-        <p class="mb-5">Enter savings goal details.</p>
-        <label for="goal_name" class="flex flex-col mb-3"
-          >Goal Name
+      <form class="flex flex-col text-white" @submit.prevent="updateDebt()">
+        <p class="mb-5">Enter debt details.</p>
+        <label for="debt_name" class="flex flex-col mb-3"
+          >Debt Name
           <input
-            id="goal_name"
-            name="goal_name"
+            id="debt_name"
+            name="debt_name"
             type="text"
-            placeholder="Vacation"
-            v-model="goalName"
+            placeholder="Credit Card #1"
+            v-model="debtName"
             class="p-2 mb-3 rounded-md text-input w-40"
           />
         </label>
-        <label for="current_amount" class="flex flex-col mb-3"
-          >Current Amount
+        <label for="current_debt" class="flex flex-col mb-3"
+          >Current Debt
           <input
-            id="current_amount"
-            name="current_amount"
+            id="current_debt"
+            name="current_debt"
             type="number"
-            placeholder="$6,000"
-            v-model="currentAmount"
+            placeholder="$700"
+            v-model="currentDebt"
             class="p-2 mb-3 rounded-md text-input w-40"
           />
         </label>
-        <label for="goal_amount" class="flex flex-col mb-3"
-          >Goal Amount
+        <label for="debt_limit" class="flex flex-col mb-3"
+          >Debt Limit
           <input
-            id="goal_amount"
-            name="goal_amount"
+            id="debt_limit"
+            name="debt_limit"
             type="number"
-            placeholder="$1,000"
-            v-model="goalAmount"
+            placeholder="$1,200"
+            v-model="debtLimit"
             class="p-2 mb-3 rounded-md text-input w-40"
           />
         </label>
-        <button type="submit" class="submit-bttn">Add Goal</button>
+        <button type="submit" class="submit-bttn">Update Debt</button>
       </form>
     </div>
   </vue-final-modal>
 </template>
 <script>
-import { ref } from "vue";
-import SavingsDataService from "../../services/SavingsDataService";
 import gql from "graphql-tag";
-import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
+import { VueFinalModal, ModalsContainer } from "vue-final-modal";
 import { useMutation } from "@vue/apollo-composable";
 import { sessionDetails } from "../../userData";
 
 export default {
-  props: ["showModal", "savingsGoal", "goal"],
+  props: ["showModal", "savingsGoal", "debt"],
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      goalName: null,
-      currentAmount: null,
-      goalAmount: null,
+      debtName: this.debt.name,
+      currentDebt: this.debt.current_debt,
+      debtLimit: this.debt.debt_limit,
       session: sessionDetails,
     };
   },
   setup() {
-    const { mutate: addSavingsRecord } = useMutation(gql`
-      mutation addSavingsRecord(
+    const { mutate: updateDebtRecord } = useMutation(gql`
+      mutation updateDebtRecord(
         $name: String!
-        $current_amount: bigint!
-        $goal_amount: bigint!
-        $user_id: uuid!
+        $current_debt: bigint!
+        $debt_limit: bigint!
+        $id: uuid!
       ) {
-        insert_savings(
-          objects: {
+        update_debts(
+          where: { id: { _eq: $id } }
+          _set: {
             name: $name
-            goal_amount: $goal_amount
-            current_amount: $current_amount
-            userid: $user_id
+            current_debt: $current_debt
+            debt_limit: $debt_limit
           }
         ) {
           returning {
@@ -99,16 +94,16 @@ export default {
       }
     `);
     return {
-      addSavingsRecord,
+      updateDebtRecord,
     };
   },
   methods: {
-    submitSavingsGoal() {
-      this.addSavingsRecord({
-        name: this.goalName,
-        goal_amount: this.goalAmount,
-        current_amount: this.currentAmount,
-        user_id: this.session.user.id,
+    updateDebt() {
+      this.updateDebtRecord({
+        name: this.debtName,
+        current_debt: this.currentDebt,
+        debt_limit: this.debtLimit,
+        id: this.debt.id,
       });
       this.closeModal();
     },
@@ -154,6 +149,7 @@ export default {
     cursor: pointer;
   }
 }
+
 .text-input {
   color: #342e37;
 }

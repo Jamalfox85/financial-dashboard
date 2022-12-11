@@ -1,9 +1,19 @@
 <template lang="">
   <div>
-    <div class="debt_block_wrapper" @click="showAddDebtModal">
+    <div class="debt_block_wrapper">
       <div class="block-header">
         <h1 class="header-text">{{ debt.name }}</h1>
-        <font-awesome-icon class="ellipses-icon" icon="fa-solid fa-ellipsis" />
+        <div tabindex="0" @focusout="dropdownActive = false">
+          <font-awesome-icon
+            class="ellipses-icon"
+            icon="fa-solid fa-ellipsis"
+            @click="toggleDropdownMenu"
+          />
+          <div class="details-dropdown-menu" v-if="dropdownActive">
+            <p class="dropdown-option" @click="editDebt()">Edit Debt</p>
+            <p class="dropdown-option" @click="deleteDebt()">Delete Debt</p>
+          </div>
+        </div>
       </div>
       <div class="block-main">
         <p class="goal-text">of $ {{ debt.debt_limit }}</p>
@@ -19,23 +29,30 @@
         </div>
       </div>
     </div>
-    <!-- <debt-details-modal
+    <edit-debt-modal
       :debt="debt"
-      :showModal="isShowingAddDebtModal"
-      @close="hideAddDebtModal"
-    /> -->
+      :showModal="editModalActive"
+      @close="hideEditModal"
+    />
+    <delete-debt-modal
+      :showModal="deleteModalActive"
+      :debt="debt"
+      @close="hideDeleteModal"
+    />
   </div>
 </template>
 <script>
-import DebtDataService from "../../../services/DebtDataService";
-
-import AddDebtModal from "../../modals/AddDebtModal.vue";
+import EditDebtModal from "../../modals/EditDebtModal.vue";
+import DeleteDebtModal from "../../modals/DeleteDebtModal.vue";
 
 export default {
   props: ["debt"],
-  components: { AddDebtModal },
+  components: { EditDebtModal, DeleteDebtModal },
   data() {
     return {
+      dropdownActive: false,
+      editModalActive: false,
+      deleteModalActive: false,
       isShowingAddDebtModal: false,
     };
   },
@@ -59,11 +76,22 @@ export default {
     },
   },
   methods: {
-    showAddDebtModal() {
-      this.isShowingAddDebtModal = true;
+    toggleDropdownMenu() {
+      this.dropdownActive = !this.dropdownActive;
     },
-    hideAddDebtModal() {
-      this.isShowingAddDebtModal = false;
+    editDebt() {
+      this.dropdownActive = false;
+      this.editModalActive = true;
+    },
+    deleteDebt() {
+      this.dropdownActive = false;
+      this.deleteModalActive = true;
+    },
+    hideEditModal() {
+      this.editModalActive = false;
+    },
+    hideDeleteModal() {
+      this.deleteModalActive = false;
     },
   },
 };
@@ -86,6 +114,8 @@ export default {
   border: solid 1px #fff;
   box-shadow: 8px 16px 16px rgba(0, 0, 0, 0.35);
   transition: 0.15s ease-in;
+  color: #fff;
+  position: relative;
   .block-header {
     display: flex;
     justify-content: space-between;
@@ -94,12 +124,33 @@ export default {
       font-size: 18px;
       font-weight: bold;
       margin: 0;
-      color: var(--white);
       letter-spacing: 4px;
     }
     .ellipses-icon {
-      color: white;
       font-size: 1.5em;
+      cursor: pointer;
+      &:hover {
+        color: rgb(201, 201, 201);
+        transition: 0.1s ease-in-out;
+      }
+    }
+    .details-dropdown-menu {
+      position: absolute;
+      right: 0;
+      background-color: #79971d;
+      width: 100px;
+      border-radius: 8px;
+      font-size: 0.8em;
+      overflow: hidden;
+      z-index: 2;
+      .dropdown-option {
+        padding: 4px 8px;
+        cursor: pointer;
+        transition: 0.1s ease-in-out;
+        &:hover {
+          background-color: #a2d729;
+        }
+      }
     }
   }
   .block-main {
@@ -109,7 +160,6 @@ export default {
     flex-direction: column;
     text-align: center;
     .goal-text {
-      color: #fff;
       margin: 0 8px 4px 0;
       align-self: flex-end;
     }
@@ -118,6 +168,11 @@ export default {
       width: 100%;
       border-radius: 16px;
       border: solid 2px #e3170a;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
       .progress-bar-progress {
         height: 100%;
         background-color: #e3170a;
@@ -126,10 +181,11 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
         .current-text {
           font-size: 14px;
-          margin-left: 8px;
+          position: absolute;
+          width: 100%;
+          text-shadow: 1px 1px 2px rgb(58, 57, 57);
         }
       }
     }

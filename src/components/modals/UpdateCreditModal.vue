@@ -6,7 +6,7 @@
     :prevent-click="true"
   >
     <div class="modal-header">
-      <h1>CREDIT DETAILS</h1>
+      <h1>UPDATE CREDIT SCORE</h1>
       <font-awesome-icon
         class="closeBttn"
         @click="closeModal()"
@@ -14,8 +14,9 @@
       />
     </div>
     <div class="form-wrapper">
-      <form class="flex flex-col text-white">
-        <p>Update your current credit score.</p>
+      <form class="flex flex-col text-white" @submit.prevent="updateScore()">
+        <p class="mb-5">Update your current credit score.</p>
+        <p class="error-message">{{ errorMessage }}</p>
         <label for="credit_score" class="flex flex-col mb-5">
           Credit Score
           <input
@@ -26,9 +27,7 @@
             class="p-2 my-3 rounded-md text-input w-28"
           />
         </label>
-        <button type="submit" @click="updateScore()" class="submit-bttn">
-          Update Score
-        </button>
+        <button type="submit" class="submit-bttn">Update Score</button>
       </form>
     </div>
   </vue-final-modal>
@@ -47,6 +46,7 @@ export default {
   data() {
     return {
       session: sessionDetails,
+      errorMessage: null,
     };
   },
   setup() {
@@ -70,11 +70,18 @@ export default {
   },
   methods: {
     updateScore() {
-      this.updateCreditScore({
-        userId: this.session.user.id,
-        creditScore: this.currentScore,
-      });
-      this.closeModal();
+      let validScore =
+        this.currentScore > 300 && this.currentScore < 850 ? true : false;
+      if (validScore) {
+        this.updateCreditScore({
+          userId: this.session.user.id,
+          creditScore: this.currentScore,
+        });
+        this.closeModal();
+      } else {
+        this.errorMessage =
+          "ERROR: Please enter a valid score. Credit scores range from 300 to 850";
+      }
     },
     closeModal() {
       this.$emit("close");
@@ -116,19 +123,32 @@ export default {
   .closeBttn {
     height: 2em;
     cursor: pointer;
+    &:hover {
+      color: rgb(208, 205, 205);
+    }
   }
+}
+.error-message {
+  color: #d41b0e;
+  margin-bottom: 1em;
 }
 .text-input {
   color: #342e37;
 }
 
 .submit-bttn {
-  background-color: #a2d729;
-  padding: 8px 4px;
-  width: 140px;
-  border-radius: 4px;
+  background: rgb(162, 215, 41);
+  background: linear-gradient(
+    180deg,
+    rgba(162, 215, 41, 1) 0%,
+    rgba(70, 215, 32, 1) 70%
+  );
+  width: 180px;
+  height: 50px;
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
   margin-bottom: 1em;
+  font-size: 1.25em;
 }
 </style>

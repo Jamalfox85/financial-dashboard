@@ -104,8 +104,7 @@ async function signOut() {
   --active-green: #8fd694;
 }
 .sidebar-wrapper {
-  position: relative;
-  height: 100%;
+  height: 100vh;
   width: 250px;
   display: flex;
   flex-direction: column;

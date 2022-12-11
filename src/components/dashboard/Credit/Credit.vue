@@ -1,10 +1,11 @@
 <template lang="">
   <div class="credit_wrapper">
     <div class="header">
-      <h1 class="section-header">CREDIT</h1>
+      <h1 class="section-header">CREDIT SCORE</h1>
     </div>
     <div class="main" id="chart">
       <apexchart
+        v-if="creditScore"
         type="radialBar"
         height="350"
         :options="chartOptions"
@@ -14,7 +15,7 @@
     </div>
     <update-credit-modal
       :showModal="displayModal"
-      :currentScore="series"
+      :currentScore="creditScore"
       @close="hideModal"
     />
   </div>
@@ -40,7 +41,8 @@ export default {
     return {
       session: sessionDetails,
       displayModal: false,
-      series: [0],
+      creditScore: null,
+      series: [30],
       chartOptions: {
         chart: {
           height: 350,
@@ -54,15 +56,17 @@ export default {
             dataLabels: {
               name: {
                 fontSize: "16px",
-                color: "#eaeff2",
+                color: "",
                 offsetY: 120,
               },
               value: {
                 offsetY: 76,
-                fontSize: "22px",
-                color: "#eaeff2",
+                fontSize: "36px",
+                color: "#a2d729",
                 formatter: function (val) {
-                  return val + " pts";
+                  /* Reverse operations used to calculate Series from Credit Score */
+                  let newVal = (val * 900) / 100;
+                  return newVal + " pts";
                 },
               },
             },
@@ -72,17 +76,6 @@ export default {
           dashArray: 4,
         },
         labels: ["Credit Score"],
-        fill: {
-          type: "gradient",
-          gradient: {
-            shade: "dark",
-            shadeIntensity: 0.1,
-            inverseColors: false,
-            opacityFrom: 1,
-            opacityTo: 1,
-            stops: [0, 50, 65, 91],
-          },
-        },
         colors: ["#a2d729"],
       },
     };
@@ -103,7 +96,9 @@ export default {
     const creditData = computed(() => result.value?.credit ?? []);
     watchEffect(() => {
       const creditScore = creditData.value[0]?.credit_score;
-      this.series = [creditScore];
+      let chartPercentage = (creditScore / 900) * 100;
+      this.creditScore = creditScore;
+      this.series = [chartPercentage];
     });
   },
 };
@@ -150,14 +145,20 @@ export default {
       text-shadow: 16px 32px 32px rgba(0, 0, 0, 0.4);
     }
     .update-score-bttn {
-      width: 125px;
-      height: 35px;
+      width: 180px;
+      height: 50px;
+      font-size: 1.25em;
       border-radius: 8px;
       background-color: #a2d729;
       text-shadow: 16px 32px 32px rgba(0, 0, 0, 0.4);
       transition: 0.15s ease-in;
+      background: rgb(162, 215, 41);
+      background: linear-gradient(
+        180deg,
+        rgba(162, 215, 41, 1) 0%,
+        rgba(70, 215, 32, 1) 70%
+      );
       &:hover {
-        background-color: var(--light-green);
         cursor: pointer;
       }
     }
