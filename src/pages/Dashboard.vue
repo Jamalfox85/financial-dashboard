@@ -1,11 +1,11 @@
 <template>
-  <div class="dashboard-wrapper p-2">
+  <div class="dashboard-wrapper">
     <div class="grid-wrapper">
       <!-- <img class="dashboard-img-card" src="../assets/images/cardimage.png" /> -->
-      <!-- <monthly-overview class="monthly-overview" /> -->
       <savings-goal class="savingsGoals" />
       <credit class="credit"></credit>
       <debt class="debt" />
+      <monthly-overview class="monthly-overview" />
       <!-- <div class="savings_and_debt"> -->
       <!-- </div> -->
       <!-- <bills class="bills" /> -->
@@ -29,8 +29,7 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
 }
 .dashboard-wrapper {
   min-height: 100vh;
-  width: 100%;
-  margin-top: 1em;
+  padding: 0 1em;
   .grid-wrapper {
     height: 100%;
     display: grid;
@@ -58,14 +57,14 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
       grid-row: span 2;
       grid-column: span 3;
     }
+    .monthly-overview {
+      grid-row: span 4;
+      grid-column: span 6;
+    }
     .dashboard-img-card {
       grid-row: span 2;
       grid-column: span 6;
       border: none;
-    }
-    .monthly-overview {
-      grid-row: span 9;
-      grid-column: span 6;
     }
     .savings_and_debt {
       grid-row: span 9;

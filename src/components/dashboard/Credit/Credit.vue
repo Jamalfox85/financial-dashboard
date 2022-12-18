@@ -3,7 +3,7 @@
     <div class="header">
       <h1 class="section-header">CREDIT SCORE</h1>
     </div>
-    <div class="main" id="chart">
+    <div class="credit-main" id="chart">
       <apexchart
         v-if="creditScore"
         type="radialBar"
@@ -135,7 +135,7 @@ export default {
       font-size: 2em;
     }
   }
-  .main {
+  .credit-main {
     color: var(--white);
     display: flex;
     flex-direction: column;

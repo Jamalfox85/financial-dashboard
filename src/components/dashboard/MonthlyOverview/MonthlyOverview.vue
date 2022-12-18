@@ -3,7 +3,7 @@
     <div class="header flex justify-between items-center mb-5">
       <h1 class="section-header">EXPENSES</h1>
       <font-awesome-icon
-        class="add-debt-icon"
+        class="add-bill-group-icon"
         icon="fa-solid fa-square-plus"
         @click="showAddBillGroupModal()"
       />
@@ -20,14 +20,19 @@
             <h3 class="text-lg">{{ group.name }}</h3>
             <div>
               <font-awesome-icon
-                class="text-lg"
+                class="text-lg add-bill-icon"
                 icon="fa-solid fa-square-plus"
                 @click="showAddBillModal()"
               />
               <font-awesome-icon
+                icon="fa-solid fa-pen-to-square"
+                class="text-lg ml-2 pen-edit-icon"
+                @click="showEditBillGroupModal(group)"
+              />
+              <font-awesome-icon
                 icon="fa-solid fa-trash"
-                class="text-lg ml-2"
-                @click="deleteBillGroup(group)"
+                class="text-lg ml-2 trashcan-delete-icon"
+                @click="showDeleteBillGroupModal(group)"
               />
             </div>
           </div>
@@ -61,11 +66,13 @@
                     <div class="flex">
                       <font-awesome-icon
                         icon="fa-solid fa-pen-to-square"
-                        class="mr-4"
+                        class="mr-4 pen-edit-icon"
+                        @click="showEditBillModal(bill)"
                       />
                       <font-awesome-icon
                         icon="fa-solid fa-trash"
-                        @click="deleteBill(bill)"
+                        class="trashcan-delete-icon"
+                        @click="showDeleteBillModal(bill)"
                       />
                     </div>
                   </td>
@@ -95,6 +102,27 @@
       :showModal="displayAddBillGroupModal"
       @closeModal="closeAddBillGroupModal"
     />
+    <delete-bill-modal
+      :showModal="displayDeleteBillModal"
+      :bill="billToDelete"
+      @close="closeDeleteBillModal"
+    />
+    <delete-bill-group-modal
+      :showModal="displayDeleteBillGroupModal"
+      :billGroup="billGroupToDelete"
+      @close="closeDeleteBillGroupModal"
+    />
+    <edit-bill-modal
+      :showModal="displayEditBillModal"
+      :bill="billToEdit"
+      :billGroups="billGroups"
+      @closeModal="closeEditBillModal"
+    />
+    <edit-bill-group-modal
+      :showModal="displayEditBillGroupModal"
+      :billGroup="billGroupToEdit"
+      @closeModal="closeEditBillGroupModal"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -106,6 +134,10 @@ import AddBillGroupModal from "../../modals/AddBillGroupModal.vue";
 import moment from "moment";
 import { reactive } from "vue";
 import { sessionDetails } from "../../../userData";
+import DeleteBillModal from "../../modals/DeleteBillModal.vue";
+import DeleteBillGroupModal from "../../modals/DeleteBillGroupModal.vue";
+import EditBillModal from "../../modals/EditBillModal.vue";
+import EditBillGroupModal from "../../modals/EditBillGroupModal.vue";
 
 const GET_BILLS_QUERY = gql`
   query ($userId: uuid!) {
@@ -115,6 +147,7 @@ const GET_BILLS_QUERY = gql`
       amount
       bill_group_id
       date
+      frequency
     }
     bill_groups(where: { user_id: { _eq: $userId } }) {
       id
@@ -130,7 +163,14 @@ const GET_BILLS_QUERY = gql`
 `;
 
 export default {
-  components: { AddBillModal, AddBillGroupModal },
+  components: {
+    AddBillModal,
+    AddBillGroupModal,
+    DeleteBillModal,
+    DeleteBillGroupModal,
+    EditBillModal,
+    EditBillGroupModal,
+  },
   data() {
     return {
       billGroups: [],
@@ -141,7 +181,15 @@ export default {
       amountPaid: 0,
       displayAddBillModal: false,
       displayAddBillGroupModal: false,
+      displayDeleteBillModal: false,
+      displayDeleteBillGroupModal: false,
       session: sessionDetails,
+      billToDelete: {},
+      billGroupToDelete: {},
+      displayEditBillModal: false,
+      displayEditBillGroupModal: false,
+      billToEdit: {},
+      billGroupToEdit: {},
     };
   },
   setup() {
@@ -204,11 +252,6 @@ export default {
     getSubtotalIncome(bills) {
       return this.getNetIncome - this.getBillGroupTotal(bills);
     },
-    deleteBill(bill) {
-      console.log(bill);
-      window.alert(`Bill "${bill.name}" Deleted`);
-      this.deleteBillRecord({ id: bill.id });
-    },
     deleteBillGroup(group) {
       window.alert(`Bill Group "${group.name}" Deleted`);
       this.deleteBillGroupRecord({ id: group.id });
@@ -224,6 +267,34 @@ export default {
     },
     closeAddBillGroupModal() {
       this.displayAddBillGroupModal = false;
+    },
+    showDeleteBillModal(bill) {
+      this.billToDelete = bill;
+      this.displayDeleteBillModal = true;
+    },
+    closeDeleteBillModal() {
+      this.displayDeleteBillModal = false;
+    },
+    showDeleteBillGroupModal(billGroup) {
+      this.billGroupToDelete = billGroup;
+      this.displayDeleteBillGroupModal = true;
+    },
+    closeDeleteBillGroupModal() {
+      this.displayDeleteBillGroupModal = false;
+    },
+    showEditBillModal(bill) {
+      this.billToEdit = bill;
+      this.displayEditBillModal = true;
+    },
+    closeEditBillModal() {
+      this.displayEditBillModal = false;
+    },
+    showEditBillGroupModal(billGroup) {
+      this.billGroupToEdit = billGroup;
+      this.displayEditBillGroupModal = true;
+    },
+    closeEditBillGroupModal() {
+      this.displayEditBillGroupModal = false;
     },
   },
   mounted() {
@@ -283,7 +354,35 @@ export default {
 </script>
 <style lang="scss" scoped>
 .monthly-overview-wrapper {
-  min-height: 80vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    height: 12px;
+    width: 100%;
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 10px;
+    border-radius: 12px;
+    background-color: #a2d729;
+  }
+  &::-webkit-scrollbar-track {
+    height: 20px;
+    border-radius: 12px;
+    background-color: #78971d58;
+  }
+  .pen-edit-icon {
+    &:hover {
+      cursor: pointer;
+      transition: 0.1s ease-in;
+      color: rgb(175, 175, 175);
+    }
+  }
+  .trashcan-delete-icon {
+    &:hover {
+      cursor: pointer;
+      transition: 0.1s ease-in;
+      color: #e3170a;
+    }
+  }
   .header {
     .section-header {
       position: relative;
@@ -293,9 +392,14 @@ export default {
       color: var(--white);
       letter-spacing: 8px;
     }
-    .add-debt-icon {
+    .add-bill-group-icon {
       color: #fff;
       font-size: 2em;
+      cursor: pointer;
+      transition: 0.1s ease-in;
+      &:hover {
+        color: rgb(175, 175, 175);
+      }
     }
   }
   .section-main {
@@ -326,6 +430,13 @@ export default {
       border: solid 1px #72971d;
       min-height: 150px;
       width: 100%;
+      .add-bill-icon {
+        cursor: pointer;
+        transition: 0.1s ease-in;
+        &:hover {
+          color: rgb(175, 175, 175);
+        }
+      }
       .bill-group-main {
         margin-bottom: 2em;
         overflow-x: scroll;

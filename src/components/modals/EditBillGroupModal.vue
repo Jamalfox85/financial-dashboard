@@ -7,7 +7,7 @@
       :prevent-click="true"
     >
       <div class="modal-header">
-        <h1>Add Bill Group</h1>
+        <h1>Edit Bill Group</h1>
         <font-awesome-icon
           class="closeBttn"
           @click="closeModal"
@@ -17,7 +17,7 @@
       <div class="form-wrapper">
         <form
           class="flex flex-col text-white"
-          @submit.prevent="submitBillGroup"
+          @submit.prevent="submitBillGroupEdit"
         >
           <p class="mb-5">What is the name of this bill group?</p>
           <p class="error-message">{{ errorMessage }}</p>
@@ -32,7 +32,7 @@
               class="p-2 mb-3 rounded-md text-input w-40"
             />
           </label>
-          <button type="submit" class="submit-bttn">Add Bill Group</button>
+          <button type="submit" class="submit-bttn">Edit Bill Group</button>
         </form>
       </div>
     </vue-final-modal>
@@ -48,19 +48,20 @@ import { sessionDetails } from "../../userData";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
-  props: ["showModal"],
+  props: ["showModal", "billGroup"],
   data() {
     return {
       session: sessionDetails,
-      billGroupName: null,
+      billGroupName: this.billGroup.name,
       errorMessage: null,
     };
   },
   setup() {
-    const { mutate: addBillGroupRecord } = useMutation(gql`
-      mutation addBillGroupRecord($groupName: String!, $userid: uuid!) {
-        insert_bill_groups(
-          objects: { group_name: $groupName, user_id: $userid }
+    const { mutate: editBillGroup } = useMutation(gql`
+      mutation editBillGroup($groupName: String!, $groupId: uuid!) {
+        update_bill_groups(
+          where: { id: { _eq: $groupId } }
+          _set: { group_name: $groupName }
         ) {
           returning {
             id
@@ -69,15 +70,15 @@ export default {
       }
     `);
     return {
-      addBillGroupRecord,
+      editBillGroup,
     };
   },
   methods: {
-    submitBillGroup() {
+    submitBillGroupEdit() {
       if (this.billGroupName !== null) {
-        this.addBillGroupRecord({
+        this.editBillGroup({
           groupName: this.billGroupName,
-          userid: this.session.user.id,
+          groupId: this.billGroup.id,
         });
         this.closeModal();
       } else {
@@ -92,7 +93,7 @@ export default {
   watch: {
     showModal: {
       handler(newVal, oldVal) {
-        this.billGroupName = null;
+        this.billGroupName = this.billGroup.name;
       },
     },
   },

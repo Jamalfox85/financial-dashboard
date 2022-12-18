@@ -83,9 +83,7 @@ export default {
   --red: #e3170a;
 }
 .debt_wrapper {
-  // overflow: hidden;
-  overflow-y: scroll;
-  overflow-x: visible;
+  overflow: hidden;
   .header {
     display: flex;
     align-items: center;
@@ -104,8 +102,9 @@ export default {
       color: #fff;
       font-size: 2em;
       cursor: pointer;
+      transition: 0.1s ease-in;
       &:hover {
-        color: rgb(232, 231, 231);
+        color: rgb(175, 175, 175);
       }
     }
   }

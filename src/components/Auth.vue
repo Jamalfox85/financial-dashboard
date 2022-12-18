@@ -188,7 +188,7 @@ const handleFormSubmit = () => {
 <style lang="scss" scoped>
 .auth_wrapper {
   display: flex;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   padding: 2em;
   .side-content {

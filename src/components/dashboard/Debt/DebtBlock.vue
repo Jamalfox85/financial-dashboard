@@ -175,7 +175,8 @@ export default {
       justify-content: flex-start;
       .progress-bar-progress {
         height: 100%;
-        background-color: #e3170a;
+        background: #e3170a;
+        background: linear-gradient(90deg, #e3170a 0%, #9f0f07 85%);
         border-radius: 16px;
         transition: 0.15s ease-in;
         display: flex;

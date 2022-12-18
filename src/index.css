@@ -33,16 +33,21 @@
 .authenticated-layout {
   height: 100%;
   width: 100%;
-  padding: 0.5em;
+  padding: 1em;
   display: flex;
 }
 .sidebar {
   border: solid 2px #a2d729;
+  position: fixed;
+  width: 250px;
+  height: 95vh;
 }
 
 .main {
   display: flex;
-  margin: 0 auto;
   justify-content: center;
   align-items: center;
+  position: relative;
+  margin-left: auto;
+  width: calc(100% - 250px);
 }
