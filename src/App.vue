@@ -14,7 +14,6 @@ onMounted(() => {
   supabase.auth.getSession().then(({ data }) => {
     session.value = data.session;
   });
-
   supabase.auth.onAuthStateChange((_, _session) => {
     session.value = _session;
   });
@@ -31,9 +30,4 @@ onMounted(() => {
     <Auth v-else />
   </div>
 </template>
-<style scoped>
-.authenticated-layout {
-  border: solid 4px pink !important;
-  flex-direction: column !important;
-}
-</style>
+<style scoped></style>

@@ -35,10 +35,10 @@
       </nav>
     </div>
     <div class="profile-group">
-      <button class="button block profile-option" :disabled="loading">
+      <!-- <button class="button block profile-option" :disabled="loading">
         <font-awesome-icon class="nav-link-icon" icon="fa-solid fa-user" />Edit
         Profile
-      </button>
+      </button> -->
       <button
         class="button block profile-option"
         @click="signOut"

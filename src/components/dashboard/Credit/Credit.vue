@@ -139,6 +139,7 @@ export default {
     color: var(--white);
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin-top: 2em;
     .credit-text {
       font-size: 96px;

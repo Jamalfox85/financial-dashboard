@@ -55,7 +55,6 @@
 @media screen and (max-width: 700px) {
   .authenticated-layout {
     flex-direction: column !important;
-    border: solid 2px red;
   }
   .sidebar {
     position: relative;

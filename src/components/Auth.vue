@@ -238,6 +238,7 @@ const handleFormSubmit = () => {
       }
     }
     .form-wrapper {
+      margin-bottom: auto;
       .form-error-message {
         color: #d7c929;
       }
