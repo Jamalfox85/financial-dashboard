@@ -99,9 +99,10 @@ import { sessionDetails } from "../../userData";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
-  props: ["showModal", "billGroups"],
+  props: ["showModalProp", "billGroups"],
   data() {
     return {
+      showModal: this.showModalProp,
       billName: null,
       billAmount: null,
       dueDate: null,

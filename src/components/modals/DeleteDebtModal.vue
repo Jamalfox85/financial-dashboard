@@ -28,9 +28,13 @@ import { useMutation } from "@vue/apollo-composable";
 import { sessionDetails } from "../../userData";
 
 export default {
-  props: ["showModal", "savingsGoal", "debt"],
+  props: ["showModalProp", "savingsGoal", "debt"],
   components: { VueFinalModal, ModalsContainer },
-
+  data() {
+    return {
+      showModal: this.showModalProp,
+    };
+  },
   setup() {
     const { mutate: DELETE_DEBT } = useMutation(gql`
       mutation DELETE_DEBT($id: uuid!) {

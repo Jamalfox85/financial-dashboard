@@ -64,10 +64,11 @@ import { useMutation } from "@vue/apollo-composable";
 import { sessionDetails } from "../../userData";
 
 export default {
-  props: ["showModal", "savingsGoal", "goal"],
+  props: ["showModalProp", "savingsGoal", "goal"],
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
+      showModal: this.showModalProp,
       goalName: this.goal.name,
       currentAmount: this.goal.current_amount,
       goalAmount: this.goal.goal_amount,

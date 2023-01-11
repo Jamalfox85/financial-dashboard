@@ -67,9 +67,10 @@ import gql from "graphql-tag";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
-  props: ["showModal", "debtCategories"],
+  props: ["showModalProp", "debtCategories"],
   data() {
     return {
+      showModal: this.showModalProp,
       debtName: null,
       debtAmount: null,
       debtLimit: null,

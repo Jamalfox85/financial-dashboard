@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from "vue-router";
+// import { RouterLink, RouterView } from "vue-router";
 import SideBar from "./core/components/SideBar.vue";
 import "./index.css";
 import CustomParticles from "./components/Particles.vue";
@@ -31,4 +31,9 @@ onMounted(() => {
     <Auth v-else />
   </div>
 </template>
-<style scoped></style>
+<style scoped>
+.authenticated-layout {
+  border: solid 4px pink !important;
+  flex-direction: column !important;
+}
+</style>

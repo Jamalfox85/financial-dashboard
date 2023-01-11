@@ -54,9 +54,10 @@ import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
-  props: ["showModal"],
+  props: ["showModalProp"],
   data() {
     return {
+      showModal: this.showModalProp,
       incomeName: "",
       incomeAmount: 0,
     };

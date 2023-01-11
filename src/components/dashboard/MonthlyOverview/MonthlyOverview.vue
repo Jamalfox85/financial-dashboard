@@ -14,6 +14,9 @@
         <p class="">{{ formatAmount(total) }}</p>
         <div class="income-line"></div>
       </div>
+      <p class="mb-3 text-center">
+        * Click a bill's status button to update it.
+      </p>
       <div v-for="(group, index) in combinedBillGroupData">
         <div class="bill-group relative rounded-lg p-3 mb-8">
           <div class="header flex justify-between items-center mb-4">
@@ -53,14 +56,20 @@
                   <td class="bill-date">{{ formatDate(bill.date) }}</td>
                   <td class="bill-amount">{{ formatAmount(bill.amount) }}</td>
                   <td class="bill-status flex items-center">
-                    <div
-                      class="bill-status-icon mr-2"
-                      :style="{
-                        backgroundColor:
-                          bill.status == 1 ? '#a2d729' : '#9e2b25',
-                      }"
-                    ></div>
-                    {{ formatStatus(bill.status) }}
+                    <button
+                      class="bill-status-bttn bill-status-paid"
+                      @click="updateBillStatus(bill)"
+                      v-if="bill.status === 1"
+                    >
+                      Paid
+                    </button>
+                    <button
+                      class="bill-status-bttn bill-status-unpaid"
+                      @click="updateBillStatus(bill)"
+                      v-else
+                    >
+                      Unpaid
+                    </button>
                   </td>
                   <td class="bill-actions">
                     <div class="flex">
@@ -148,6 +157,7 @@ const GET_BILLS_QUERY = gql`
       bill_group_id
       date
       frequency
+      status
     }
     bill_groups(where: { user_id: { _eq: $userId } }) {
       id
@@ -193,6 +203,18 @@ export default {
     };
   },
   setup() {
+    const { mutate: editBillStatus } = useMutation(gql`
+      mutation editBillRecord($status: bigint!, $billId: uuid!) {
+        update_bills(
+          where: { id: { _eq: $billId } }
+          _set: { status: $status }
+        ) {
+          returning {
+            id
+          }
+        }
+      }
+    `);
     const { mutate: deleteBillRecord } = useMutation(gql`
       mutation deleteBillRecord($id: uuid!) {
         delete_bills(where: { id: { _eq: $id } }) {
@@ -212,6 +234,7 @@ export default {
       }
     `);
     return {
+      editBillStatus,
       deleteBillRecord,
       deleteBillGroupRecord,
     };
@@ -226,13 +249,6 @@ export default {
         currency: "USD",
       }).format(amount);
     },
-    formatStatus(status) {
-      if (status == 1) {
-        return "paid";
-      } else {
-        return "unpaid";
-      }
-    },
     getRemainingBalance(currentGroupIndex) {
       for (let i = currentGroupIndex; i >= 0; i--) {
         let amountPaid = 0;
@@ -240,6 +256,11 @@ export default {
         amountPaid += groupTotal;
         return this.total - amountPaid;
       }
+    },
+    updateBillStatus(bill) {
+      let newStatus = bill.status === 1 ? 0 : 1;
+      this.editBillStatus({ billId: bill.id, status: newStatus });
+      console.log(bill);
     },
     getBillGroupTotal(bills) {
       let total = 0;
@@ -456,11 +477,16 @@ export default {
             border-bottom: solid 1px #a2d729;
           }
         }
-        .bill-status-icon {
-          height: 8px;
-          width: 8px;
-          border-radius: 50%;
-          background-color: #a2d729;
+        .bill-status-bttn {
+          padding: 2px 8px;
+          border-radius: 8px;
+          cursor: pointer;
+          &.bill-status-paid {
+            background-color: #a2d729;
+          }
+          &.bill-status-unpaid {
+            background-color: #9e2b25;
+          }
         }
       }
       .bill-group-subtotal {

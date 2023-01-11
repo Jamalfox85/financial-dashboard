@@ -66,5 +66,4 @@ app.use(router);
 app.use(Particles);
 app.use(VueApexCharts);
 app.use(vfmPlugin);
-
 app.mount("#app");

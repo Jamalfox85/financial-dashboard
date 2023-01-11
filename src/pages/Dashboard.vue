@@ -33,7 +33,7 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
   .grid-wrapper {
     height: 100%;
     display: grid;
-    grid-template-rows: repeat(12, 250px);
+    grid-template-rows: repeat(6, 250px);
     grid-template-columns: repeat(12, 1fr);
     grid-column-gap: 1em;
     grid-row-gap: 1em;
@@ -97,6 +97,31 @@ import Credit from "../components/dashboard/Credit/Credit.vue";
       // flex-grow: 1;
       grid-row: span 2;
       grid-column: span 1;
+    }
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .dashboard-wrapper {
+    .grid-wrapper {
+      .credit,
+      .debt {
+        grid-column: span 6;
+      }
+      .monthly-overview {
+        grid-column: span 12;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .dashboard-wrapper {
+    .grid-wrapper {
+      .credit,
+      .debt {
+        grid-column: span 12 !important;
+      }
     }
   }
 }

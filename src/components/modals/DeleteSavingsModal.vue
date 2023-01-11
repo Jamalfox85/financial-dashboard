@@ -31,9 +31,13 @@ import { useMutation } from "@vue/apollo-composable";
 import { sessionDetails } from "../../userData";
 
 export default {
-  props: ["showModal", "savingsGoal", "goal"],
+  props: ["showModalProp", "savingsGoal", "goal"],
   components: { VueFinalModal, ModalsContainer },
-
+  data() {
+    return {
+      showModal: this.showModalProp,
+    };
+  },
   setup() {
     const { mutate: DELETE_GOAL } = useMutation(gql`
       mutation DELETE_GOAL($id: uuid!) {

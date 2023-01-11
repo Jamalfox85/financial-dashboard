@@ -160,4 +160,43 @@ async function signOut() {
     }
   }
 }
+
+@media screen and (max-width: 700px) {
+  .sidebar-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    .portrait-group {
+      display: none;
+    }
+    .nav-links nav {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      .nav-link {
+        width: 50%;
+      }
+    }
+    .profile-group {
+      display: flex;
+      width: 100%;
+      button {
+        margin: 0.5em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .nav-links nav {
+    .nav-link {
+      width: 100% !important;
+    }
+  }
+  .profile-group {
+    flex-wrap: wrap;
+    button {
+      width: 100%;
+    }
+  }
+}
 </style>

@@ -48,9 +48,10 @@ import { sessionDetails } from "../../userData";
 
 export default {
   components: { VueFinalModal, ModalsContainer },
-  props: ["showModal", "billGroup"],
+  props: ["showModalProp", "billGroup"],
   data() {
     return {
+      showModal: this.showModalProp,
       session: sessionDetails,
       billGroupName: this.billGroup.name,
       errorMessage: null,

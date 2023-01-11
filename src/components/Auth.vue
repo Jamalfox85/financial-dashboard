@@ -1,14 +1,7 @@
 <script setup>
+import { form } from "@formkit/inputs";
 import { ref } from "vue";
 import { supabase } from "../supabase";
-
-const makeToast = (variant = null) => {
-  this.$bvToast.toast("Toast body content", {
-    title: `Variant ${variant || "default"}`,
-    variant: variant,
-    solid: true,
-  });
-};
 
 const loading = ref(false);
 const firstName = ref("");
@@ -60,6 +53,7 @@ const handleSignup = async () => {
         password.value = "";
         confirmPassword.value = "";
       }
+      alert("Account created successfully! Check your email to confirm.");
     } catch (error) {
       alert(error.error_description || error.message);
     }
@@ -188,7 +182,7 @@ const handleFormSubmit = () => {
 <style lang="scss" scoped>
 .auth_wrapper {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
   padding: 2em;
   .side-content {
@@ -223,7 +217,6 @@ const handleFormSubmit = () => {
     }
   }
   .form-content {
-    flex-grow: 1;
     padding: 2em;
     display: flex;
     flex-direction: column;
@@ -245,12 +238,11 @@ const handleFormSubmit = () => {
       }
     }
     .form-wrapper {
-      flex-grow: 1;
       .form-error-message {
         color: #d7c929;
       }
       .form-main {
-        width: 500px;
+        max-width: 500px;
         margin-top: 1em;
         .user-name {
           display: flex;
@@ -288,6 +280,32 @@ const handleFormSubmit = () => {
         );
       }
     }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .auth_wrapper {
+    flex-direction: column;
+    .side-content {
+      width: 100%;
+      margin-bottom: 1em;
+      .main-text {
+        .main-auth-text {
+          font-size: 32px;
+          margin-bottom: 8px;
+        }
+        .secondary-auth-text {
+          font-size: 16px;
+        }
+      }
+      .auth-login-image {
+        display: none;
+      }
+    }
+  }
+  .form-content {
+    justify-content: space-evenly !important;
+    padding: 0 !important;
   }
 }
 </style>

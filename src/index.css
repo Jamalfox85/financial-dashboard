@@ -51,3 +51,19 @@
   margin-left: auto;
   width: calc(100% - 250px);
 }
+
+@media screen and (max-width: 700px) {
+  .authenticated-layout {
+    flex-direction: column !important;
+    border: solid 2px red;
+  }
+  .sidebar {
+    position: relative;
+    width: 100% !important;
+    margin-bottom: 2em;
+    height: fit-content;
+  }
+  .main {
+    width: 100%;
+  }
+}

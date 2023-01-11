@@ -65,10 +65,11 @@ import IncomesDataService from "../../services/IncomeDataService";
 import { $vfm, VueFinalModal, ModalsContainer } from "vue-final-modal";
 
 export default {
-  props: ["showModal", "income"],
+  props: ["showModalProp", "income"],
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
+      showModal: this.showModalProp,
       incomeName: null,
       incomeAmount: 0,
     };

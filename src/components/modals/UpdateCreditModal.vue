@@ -23,7 +23,7 @@
             id="credit_score"
             name="credit_score"
             type="text"
-            v-model="currentScore"
+            v-model="currentCreditScore"
             class="p-2 my-3 rounded-md text-input w-28"
           />
         </label>
@@ -41,12 +41,14 @@ import { useMutation } from "@vue/apollo-composable";
 import { sessionDetails } from "../../userData";
 
 export default {
-  props: ["showModal", "currentScore"],
+  props: ["showModalProp", "currentScore"],
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
+      showModal: this.showModalProp,
       session: sessionDetails,
       errorMessage: null,
+      currentCreditScore: this.currentScore,
     };
   },
   setup() {
