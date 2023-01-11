@@ -1,10 +1,7 @@
 <script setup>
-// import { RouterLink, RouterView } from "vue-router";
 import SideBar from "./core/components/SideBar.vue";
 import "./index.css";
-import CustomParticles from "./components/Particles.vue";
 import { onMounted, ref } from "vue";
-import Account from "./components/Account.vue";
 import Auth from "./components/Auth.vue";
 import { supabase } from "./supabase";
 

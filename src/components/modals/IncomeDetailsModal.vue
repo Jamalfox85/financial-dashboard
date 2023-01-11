@@ -69,10 +69,14 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      showModal: this.showModalProp,
       incomeName: null,
       incomeAmount: 0,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   methods: {
     updateIncome() {

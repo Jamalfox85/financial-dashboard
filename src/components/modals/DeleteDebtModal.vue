@@ -30,10 +30,11 @@ import { sessionDetails } from "../../userData";
 export default {
   props: ["showModalProp", "savingsGoal", "debt"],
   components: { VueFinalModal, ModalsContainer },
-  data() {
-    return {
-      showModal: this.showModalProp,
-    };
+
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: DELETE_DEBT } = useMutation(gql`

@@ -52,7 +52,7 @@
               class="p-2 mb-3 rounded-md text-input w-40"
             />
           </label>
-          <button type="submit" class="submit-bttn">Add Bill</button>
+          <button type="submit" class="submit-bttn">Add Debt</button>
         </form>
       </div>
     </vue-final-modal>
@@ -70,13 +70,17 @@ export default {
   props: ["showModalProp", "debtCategories"],
   data() {
     return {
-      showModal: this.showModalProp,
       debtName: null,
       debtAmount: null,
       debtLimit: null,
       debtCategory: null,
       session: sessionDetails,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: addDebtRecord } = useMutation(gql`

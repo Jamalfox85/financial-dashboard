@@ -103,32 +103,32 @@
       </div>
     </div>
     <add-bill-modal
-      :showModal="displayAddBillModal"
+      :showModalProp="displayAddBillModal"
       :billGroups="billGroups"
       @closeModal="closeAddBillModal"
     />
     <add-bill-group-modal
-      :showModal="displayAddBillGroupModal"
+      :showModalProp="displayAddBillGroupModal"
       @closeModal="closeAddBillGroupModal"
     />
     <delete-bill-modal
-      :showModal="displayDeleteBillModal"
+      :showModalProp="displayDeleteBillModal"
       :bill="billToDelete"
       @close="closeDeleteBillModal"
     />
     <delete-bill-group-modal
-      :showModal="displayDeleteBillGroupModal"
+      :showModalProp="displayDeleteBillGroupModal"
       :billGroup="billGroupToDelete"
       @close="closeDeleteBillGroupModal"
     />
     <edit-bill-modal
-      :showModal="displayEditBillModal"
+      :showModalProp="displayEditBillModal"
       :bill="billToEdit"
       :billGroups="billGroups"
       @closeModal="closeEditBillModal"
     />
     <edit-bill-group-modal
-      :showModal="displayEditBillGroupModal"
+      :showModalProp="displayEditBillGroupModal"
       :billGroup="billGroupToEdit"
       @closeModal="closeEditBillGroupModal"
     />

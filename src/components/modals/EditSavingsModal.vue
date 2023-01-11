@@ -68,12 +68,16 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      showModal: this.showModalProp,
       goalName: this.goal.name,
       currentAmount: this.goal.current_amount,
       goalAmount: this.goal.goal_amount,
       session: sessionDetails,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: updateSavingsRecord } = useMutation(gql`

@@ -39,9 +39,13 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      showModal: this.showModalProp,
       errorMessage: null,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: DELETE_BILL_GROUP } = useMutation(gql`

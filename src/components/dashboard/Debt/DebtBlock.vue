@@ -31,11 +31,11 @@
     </div>
     <edit-debt-modal
       :debt="debt"
-      :showModal="editModalActive"
+      :showModalProp="editModalActive"
       @close="hideEditModal"
     />
     <delete-debt-modal
-      :showModal="deleteModalActive"
+      :showModalProp="deleteModalActive"
       :debt="debt"
       @close="hideDeleteModal"
     />

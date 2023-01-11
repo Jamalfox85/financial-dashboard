@@ -31,7 +31,7 @@
       </div>
     </div>
     <bill-details-modal
-      :showModal="isShowingBillDetailsModal"
+      :showModalProp="isShowingBillDetailsModal"
       @close="closeUpdateBillModal"
       :bill="bill"
     />

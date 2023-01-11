@@ -70,12 +70,16 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      showModal: this.showModalProp,
       goalName: null,
       currentAmount: null,
       goalAmount: null,
       session: sessionDetails,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: addSavingsRecord } = useMutation(gql`

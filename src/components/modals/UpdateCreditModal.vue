@@ -24,6 +24,7 @@
             name="credit_score"
             type="text"
             v-model="currentCreditScore"
+            :placeholder="currentScore"
             class="p-2 my-3 rounded-md text-input w-28"
           />
         </label>
@@ -45,11 +46,16 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      showModal: this.showModalProp,
       session: sessionDetails,
       errorMessage: null,
-      currentCreditScore: this.currentScore,
+      currentCreditScore: null,
     };
+  },
+  computed: {
+    showModal() {
+      console.log(this.currentScore);
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: updateCreditScore } = useMutation(
@@ -73,11 +79,13 @@ export default {
   methods: {
     updateScore() {
       let validScore =
-        this.currentScore > 300 && this.currentScore < 850 ? true : false;
+        this.currentCreditScore > 300 && this.currentCreditScore < 850
+          ? true
+          : false;
       if (validScore) {
         this.updateCreditScore({
           userId: this.session.user.id,
-          creditScore: this.currentScore,
+          creditScore: this.currentCreditScore,
         });
         this.closeModal();
       } else {

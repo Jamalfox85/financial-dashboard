@@ -28,7 +28,7 @@
         </div>
       </div>
       <add-bill-modal
-        :showModal="displayAddBillModal"
+        :showModalProp="displayAddBillModal"
         @closeModal="closeAddBillModal"
       />
     </div>
@@ -53,9 +53,6 @@ const GET_BILLS_QUERY = gql`
     }
   }
 `;
-
-// 86b27233-68ec-4ff5-ad2a-0aab04d13ba8 (userid)
-// 1221dfb2-4a79-423a-9fb7-6cf937ff7908(bill group id)
 
 export default {
   components: { AddBttn, billBlock, AddBillModal },

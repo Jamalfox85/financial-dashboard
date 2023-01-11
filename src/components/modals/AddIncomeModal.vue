@@ -57,10 +57,14 @@ export default {
   props: ["showModalProp"],
   data() {
     return {
-      showModal: this.showModalProp,
       incomeName: "",
       incomeAmount: 0,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   methods: {
     submitIncome() {

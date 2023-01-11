@@ -78,12 +78,16 @@ export default {
   props: ["showModalProp", "bill"],
   data() {
     return {
-      showModal: this.showModalProp,
       billName: null,
       billAmount: 0,
       dueDate: null,
       billId: null,
     };
+  },
+  computed: {
+    showModal() {
+      return true;
+    },
   },
   methods: {
     updateBill() {

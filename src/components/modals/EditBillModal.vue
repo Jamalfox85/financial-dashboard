@@ -103,7 +103,6 @@ export default {
   props: ["showModalProp", "billGroups", "bill"],
   data() {
     return {
-      showModal: this.showModalProp,
       billName: null,
       billAmount: null,
       dueDate: null,
@@ -177,6 +176,9 @@ export default {
         });
       });
       return formattedBillGroups;
+    },
+    showModal() {
+      return this.showModalProp;
     },
   },
   methods: {

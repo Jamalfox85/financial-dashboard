@@ -51,11 +51,15 @@ export default {
   props: ["showModalProp", "billGroup"],
   data() {
     return {
-      showModal: this.showModalProp,
       session: sessionDetails,
       billGroupName: this.billGroup.name,
       errorMessage: null,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: editBillGroup } = useMutation(gql`

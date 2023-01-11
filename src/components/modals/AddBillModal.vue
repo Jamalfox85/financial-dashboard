@@ -62,8 +62,11 @@
               v-model="frequency"
               class="p-2 mb-3 rounded-md text-input w-40"
             >
-              <option v-for="option in frequencyOptions">
-                {{ option }}
+              <option
+                v-for="option in formatFrequencyOptions"
+                :value="option.value"
+              >
+                {{ option.name }}
               </option>
             </select>
           </label>
@@ -80,7 +83,9 @@
               v-model="billGroup"
               class="p-2 mb-3 rounded-md text-input w-40"
             >
-              <option v-for="option in formatBillGroups">{{ option }}</option>
+              <option v-for="option in formatBillGroups" :value="option.id">
+                {{ option.name }}
+              </option>
             </select>
           </label>
           <button type="submit" class="submit-bttn">Add Bill</button>
@@ -102,13 +107,11 @@ export default {
   props: ["showModalProp", "billGroups"],
   data() {
     return {
-      showModal: this.showModalProp,
       billName: null,
       billAmount: null,
       dueDate: null,
       frequency: null,
       billGroup: null,
-      frequencyOptions: { 31: "Monthly", 32: "Weekly" },
       errorMessage: null,
       session: sessionDetails,
     };
@@ -144,12 +147,30 @@ export default {
     };
   },
   computed: {
+    formatFrequencyOptions() {
+      return [
+        {
+          value: 31,
+          name: "Monthly",
+        },
+        {
+          value: 32,
+          name: "Weekly",
+        },
+      ];
+    },
     formatBillGroups() {
-      let formattedBillGroups = {};
+      let formattedBillGroups = [];
       this.billGroups.map((item, index) => {
-        formattedBillGroups[item.id] = item.group_name;
+        formattedBillGroups.push({
+          id: item.id,
+          name: item.group_name,
+        });
       });
       return formattedBillGroups;
+    },
+    showModal() {
+      return this.showModalProp;
     },
   },
   methods: {
@@ -168,7 +189,7 @@ export default {
           date: `2022-11-${this.dueDate}`,
           bill_group_id: this.billGroup,
           amount: this.billAmount,
-          frequency: this.frequency,
+          frequency: 31,
           user_id: this.session.user.id,
         });
         this.closeModal();

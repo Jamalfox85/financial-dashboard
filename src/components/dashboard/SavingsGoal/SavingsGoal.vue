@@ -15,7 +15,7 @@
         :goal="goal"
       />
     </div>
-    <add-savings-goal-modal :showModal="displayModal" @close="hideModal" />
+    <add-savings-goal-modal :showModalProp="displayModal" @close="hideModal" />
   </div>
 </template>
 
@@ -104,6 +104,7 @@ export default {
   .savings-goals {
     width: 100%;
     display: flex;
+    flex-direction: row-reverse;
     justify-content: flex-start;
     overflow: auto;
     padding-bottom: 0.5em;

@@ -29,12 +29,12 @@
       </div>
     </div>
     <edit-savings-modal
-      :showModal="editModalActive"
+      :showModalProp="editModalActive"
       :goal="goal"
       @close="hideEditModal"
     />
     <delete-savings-modal
-      :showModal="deleteModalActive"
+      :showModalProp="deleteModalActive"
       :goal="goal"
       @close="hideDeleteModal"
     />

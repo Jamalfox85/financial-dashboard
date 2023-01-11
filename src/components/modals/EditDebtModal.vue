@@ -65,12 +65,16 @@ export default {
   components: { VueFinalModal, ModalsContainer },
   data() {
     return {
-      showModal: this.showModalProp,
       debtName: this.debt.name,
       currentDebt: this.debt.current_debt,
       debtLimit: this.debt.debt_limit,
       session: sessionDetails,
     };
+  },
+  computed: {
+    showModal() {
+      return this.showModalProp;
+    },
   },
   setup() {
     const { mutate: updateDebtRecord } = useMutation(gql`

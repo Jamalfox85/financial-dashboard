@@ -12,7 +12,7 @@
       <debt-block class="debt-block" v-for="debt in debts" :debt="debt" />
     </div>
     <add-debt-modal
-      :showModal="displayAddDebtModal"
+      :showModalProp="displayAddDebtModal"
       @closeModal="hideAddDebtModal"
     />
   </div>
@@ -109,6 +109,8 @@ export default {
     }
   }
   .debts {
+    display: flex;
+    flex-direction: column-reverse;
     height: 100%;
     overflow-y: scroll;
     overflow-x: visible;

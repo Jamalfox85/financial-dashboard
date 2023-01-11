@@ -14,7 +14,7 @@
       <button @click="showModal" class="update-score-bttn">Update Score</button>
     </div>
     <update-credit-modal
-      :showModal="displayModal"
+      :showModalProp="displayModal"
       :currentScore="creditScore"
       @close="hideModal"
     />
@@ -65,7 +65,7 @@ export default {
                 color: "#a2d729",
                 formatter: function (val) {
                   /* Reverse operations used to calculate Series from Credit Score */
-                  let newVal = (val * 900) / 100;
+                  let newVal = Math.ceil((val * 900) / 100);
                   return newVal + " pts";
                 },
               },
